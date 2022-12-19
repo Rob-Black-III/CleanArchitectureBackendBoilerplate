@@ -1,16 +1,13 @@
+using CleanArchitectureBoilerplate.Application.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitectureBoilerplate.Application
-{
+namespace CleanArchitectureBoilerplate.Application;
+
     public static class RegisterDependenciesDI
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            /*
-            services.addScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             return services;
-            */
-            return null;
         }
     }
-}

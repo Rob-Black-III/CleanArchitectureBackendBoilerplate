@@ -1,4 +1,8 @@
 
+using CleanArchitectureBoilerplate.Application.Common.Interfaces.Authentication;
+using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Infrastructure.Authentication;
+using CleanArchitectureBoilerplate.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitectureBoilerplate.Infrastructure
@@ -7,11 +11,9 @@ namespace CleanArchitectureBoilerplate.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            /*
-            services.addScoped<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator>();
+            services.AddSingleton<IDateTimeProvider,DateTimeProvider>();
             return services;
-            */
-            return null;
         }
     }
 }
