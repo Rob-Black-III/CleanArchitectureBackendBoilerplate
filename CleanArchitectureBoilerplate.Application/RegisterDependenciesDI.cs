@@ -1,14 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitectureBoilerplate.Application
 {
     public static class RegisterDependenciesDI
     {
-        // public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-        // {
-        // }
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            /*
+            services.addScoped<IAuthenticationService, AuthenticationService>();
+            return services;
+            */
+            return null;
+        }
     }
 }

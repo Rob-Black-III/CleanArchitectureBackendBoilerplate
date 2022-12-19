@@ -1,14 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitectureBoilerplate.API
 {
     public static class RegisterDependenciesDI
     {
-        // public static IServiceCollection AddAPIServices(this IServiceCollection services)
-        // {
-        // }
+        // TODO figure out why this can't be added to Program.cs
+        public static IServiceCollection AddAPIServices(this IServiceCollection services)
+        {
+            /*
+            services.addScoped<IAuthenticationService, AuthenticationService>();
+            return services;
+            */
+            return null;
+        }
     }
 }

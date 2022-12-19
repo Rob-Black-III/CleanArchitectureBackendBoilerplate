@@ -1,6 +1,13 @@
+using CleanArchitectureBoilerplate.Application;
+using CleanArchitectureBoilerplate.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 {
     // Add services to the container. Also for DI
+    builder.Services.AddApplicationServices();
+    builder.Services.AddInfrastructureServices(); // This is why we have a layer reference to infrastructure.
+    //builder.Services.AddAPIServices();
+
     builder.Services.AddControllers();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

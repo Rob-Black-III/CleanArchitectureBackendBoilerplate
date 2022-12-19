@@ -1,12 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitectureBoilerplate.Infrastructure
 {
-    public class RegisterDependenciesDI
+    public static class RegisterDependenciesDI
     {
-        
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        {
+            /*
+            services.addScoped<IAuthenticationService, AuthenticationService>();
+            return services;
+            */
+            return null;
+        }
     }
 }
