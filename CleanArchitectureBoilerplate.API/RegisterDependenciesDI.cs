@@ -1,17 +1,13 @@
+using CleanArchitectureBoilerplate.Application.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitectureBoilerplate.API
+namespace CleanArchitectureBoilerplate.API;
+
+public static class RegisterDependenciesDI
 {
-    public static class RegisterDependenciesDI
+    public static IServiceCollection AddPresentationServices(this IServiceCollection services)
     {
-        // TODO figure out why this can't be added to Program.cs
-        public static IServiceCollection AddAPIServices(this IServiceCollection services)
-        {
-            /*
-            services.addScoped<IAuthenticationService, AuthenticationService>();
-            return services;
-            */
-            return null;
-        }
+        //
+        return services;
     }
 }

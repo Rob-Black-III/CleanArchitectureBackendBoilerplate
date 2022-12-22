@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistance
+namespace CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence
 {
+    // Considering getting rid of the generic repository. Considered an anti-pattern.
+    // Not all models need all the CRUD operations. Bad design?
     public interface IRepository<T> where T : class
     {
         Task<T> GetByIdAsync(Guid id);

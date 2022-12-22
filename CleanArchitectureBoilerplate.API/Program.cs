@@ -1,3 +1,4 @@
+using CleanArchitectureBoilerplate.API;
 using CleanArchitectureBoilerplate.Application;
 using CleanArchitectureBoilerplate.Infrastructure;
 
@@ -6,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
     // Add services to the container. Also for DI
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration); // This is why we have a layer reference to infrastructure.
-    //builder.Services.AddAPIServices();
+    builder.Services.AddPresentationServices();
 
     builder.Services.AddControllers();
 

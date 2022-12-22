@@ -1,12 +1,14 @@
-/*
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
+using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitectureBoilerplate.Infrastructure.Persistance
+namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
 {
-    // 
+    // https://deviq.com/design-patterns/repository-pattern
     //EFCore already provides the Repository and UnitOfWork via the DBContext and DBSets.
     //However, for testing and to decouple EFCore with our Infrastructure layer,
     //I decided to abstract this to an IRepository for our Application and Infrastructure layers.
@@ -55,5 +57,5 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistance
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+    }
 }
-*/
