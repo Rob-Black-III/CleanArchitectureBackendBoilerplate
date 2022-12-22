@@ -19,7 +19,7 @@ namespace CleanArchitectureBoilerplate.API.Controllers;
             _authenticationService = authenticationService;
         }
 
-        [HttpPost("register")]
+    [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
         var authResult = _authenticationService.Register(

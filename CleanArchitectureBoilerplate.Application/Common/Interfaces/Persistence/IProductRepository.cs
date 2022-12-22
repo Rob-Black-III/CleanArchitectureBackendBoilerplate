@@ -6,8 +6,9 @@ using CleanArchitectureBoilerplate.Domain.Entities;
 
 namespace CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository
     {
         // Product-specific queries (get categories perhaps?)
+        Task<Product> GetByIdAsync(Guid id);
     }
 }
