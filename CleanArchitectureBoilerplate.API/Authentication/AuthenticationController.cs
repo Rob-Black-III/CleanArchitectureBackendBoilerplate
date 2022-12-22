@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CleanArchitectureBoilerplate.API.Authentication;
 using CleanArchitectureBoilerplate.Application.Authentication;
-using CleanArchitectureBoilerplate.Contracts.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using static CleanArchitectureBoilerplate.API.Authentication.AuthenticationPresentationDTOs;
 
 namespace CleanArchitectureBoilerplate.API.Controllers;
 

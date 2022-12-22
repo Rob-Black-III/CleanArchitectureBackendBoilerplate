@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Application.Products;
-using CleanArchitectureBoilerplate.Contracts.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureBoilerplate.API.Controllers

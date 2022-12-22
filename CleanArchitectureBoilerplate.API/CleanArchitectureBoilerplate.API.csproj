@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CleanArchitectureBoilerplate.Application\CleanArchitectureBoilerplate.Application.csproj" />
     <ProjectReference Include="..\CleanArchitectureBoilerplate.Infrastructure\CleanArchitectureBoilerplate.Infrastructure.csproj" />
-    <ProjectReference Include="..\CleanArchitectureBoilerplate.Contracts\CleanArchitectureBoilerplate.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

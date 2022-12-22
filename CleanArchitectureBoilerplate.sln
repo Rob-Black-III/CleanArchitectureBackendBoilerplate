@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureBoilerplat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureBoilerplate.Application", "CleanArchitectureBoilerplate.Application\CleanArchitectureBoilerplate.Application.csproj", "{266718A5-17B0-4D20-B507-5B3AB4C3B3EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureBoilerplate.Contracts", "CleanArchitectureBoilerplate.Contracts\CleanArchitectureBoilerplate.Contracts.csproj", "{533F4A4A-B77B-4A7B-B003-5A864AA6C04D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
