@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.Application.Common.Errors;
+using CleanArchitectureBoilerplate.Application.Common.Status;
 
 namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 {
@@ -9,6 +9,6 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
         public string traceID;
         // Will likely be an Task<IActionResult<ENDPOINT_RESPONSE>>
         public dynamic payload;
-        public List<Error> issues;
+        public List<Status> issues;
     }
 }

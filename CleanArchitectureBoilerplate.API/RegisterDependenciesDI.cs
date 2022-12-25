@@ -8,7 +8,6 @@ public static class RegisterDependenciesDI
 {
     public static IServiceCollection AddPresentationServices(this IServiceCollection services)
     {
-        services.AddScoped<IAPIResponseService,APIResponseService>();
         return services;
     }
 }
