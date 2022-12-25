@@ -2,6 +2,7 @@ using CleanArchitectureBoilerplate.Application.Common.Interfaces.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Infrastructure.Authentication;
+using CleanArchitectureBoilerplate.Infrastructure.Logging;
 using CleanArchitectureBoilerplate.Infrastructure.Persistence;
 using CleanArchitectureBoilerplate.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure
             // Services
             services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator>();
             services.AddSingleton<IDateTimeProvider,DateTimeProvider>();
+            services.AddSingleton<ICleanArchitectureBoilerplateLogger,SerilogLogger>();
 
             // Repositories
             services.AddScoped<IProductRepository, ProductRepository>();

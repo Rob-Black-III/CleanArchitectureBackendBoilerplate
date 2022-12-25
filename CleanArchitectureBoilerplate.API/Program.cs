@@ -1,4 +1,5 @@
 using CleanArchitectureBoilerplate.API;
+using CleanArchitectureBoilerplate.API.Middleware;
 using CleanArchitectureBoilerplate.Application;
 using CleanArchitectureBoilerplate.Infrastructure;
 
@@ -30,6 +31,9 @@ var app = builder.Build();
     app.UseAuthorization();
 
     app.MapControllers();
+
+    // Add all of our custom middleware to the request pipeline.
+    app.RegisterCustomMiddleware();
 
     app.Run();
 }
