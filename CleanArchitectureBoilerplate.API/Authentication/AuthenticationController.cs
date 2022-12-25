@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CleanArchitectureBoilerplate.API.APIResponseWrapper;
 using CleanArchitectureBoilerplate.API.Authentication;
 using CleanArchitectureBoilerplate.Application.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,11 @@ namespace CleanArchitectureBoilerplate.API.Controllers;
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private IAPIResponseService _responseService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, IAPIResponseService responseService)
         {
+            _responseService = responseService;
             _authenticationService = authenticationService;
         }
 
@@ -36,6 +39,9 @@ namespace CleanArchitectureBoilerplate.API.Controllers;
             authResult.Email,
             authResult.Token);
 
+        // MAP TO OUR API OBJECT
+        _responseService.GetResponseObject().payload = Ok(response);
+
         return Ok(response);
     }
 
@@ -52,6 +58,8 @@ namespace CleanArchitectureBoilerplate.API.Controllers;
             authResult.LastName,
             authResult.Email,
             authResult.Token);
+        
+
 
         return Ok(response);
     }

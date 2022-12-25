@@ -1,6 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Errors;
 
-namespace CleanArchitectureBoilerplate.API
+namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 {
     // Considered using generics "APIResponse<T>; payload T". TODO
     public class APIResponse
