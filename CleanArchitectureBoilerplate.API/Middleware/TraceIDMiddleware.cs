@@ -17,7 +17,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             string id = context.TraceIdentifier;
             context.Response.Headers["X-Trace-Id"] = id;
 
-            logger.Log("New Request. TraceID: " + id, Domain.StatusSeverity.INFO, true);
+            logger.LogInfo("New Request. TraceID: " + id, true);
 
             await _next(context);
         }

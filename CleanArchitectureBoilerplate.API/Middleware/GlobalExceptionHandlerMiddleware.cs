@@ -1,5 +1,4 @@
 using CleanArchitectureBoilerplate.Application.Common.Services;
-using CleanArchitectureBoilerplate.Domain;
 
 namespace CleanArchitectureBoilerplate.API.Middleware
 {
@@ -27,17 +26,8 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             }
         }
         private async void HandleException(HttpContext context, Exception ex, ICleanArchitectureBoilerplateLogger logger)
-
         {
-             logger.Log(ex.ToString(), StatusSeverity.UNEXPECTED_ERROR);
-
-            // var errorMessageObject = 
-            //     new { Message = ex.Message, Code = "system_error" };
-           
-            // var errorMessage = JsonConvert.SerializeObject(errorMessageObject);
-            // context.Response.ContentType = "application/json";
-            // context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            // return context.Response.WriteAsync(errorMessage);
+             logger.LogUnknownCritical(ex.ToString());
         }
     }
 }

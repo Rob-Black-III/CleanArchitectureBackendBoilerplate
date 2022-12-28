@@ -28,7 +28,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
                 string id = context.TraceIdentifier;
                 context.Response.Headers["X-Trace-Id"] = id;
 
-                logger.Log($"Created GUID traceID: {id}", Domain.StatusSeverity.DEBUG);
+                logger.LogDebug($"Created GUID traceID: {id}");
 
                 await _next(context);
 
@@ -44,7 +44,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
                 result.traceID = context.TraceIdentifier;
                 result.payload = objResult;
 
-                logger.Log("Writing API Response Wrapper payload...", Domain.StatusSeverity.DEBUG);
+                logger.LogDebug("Writing API Response Wrapper payload...");
 
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
             }

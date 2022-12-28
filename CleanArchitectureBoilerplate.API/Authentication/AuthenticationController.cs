@@ -22,7 +22,7 @@ namespace CleanArchitectureBoilerplate.API.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            _logger.LogDebug("Entering Register Controller...", false);
+            _logger.LogDebug("Entering Register Controller...");
 
             var authResult = _authenticationService.Register(
                 request.FirstName,

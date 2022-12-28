@@ -21,19 +21,9 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
                 .CreateLogger();
         }
 
-        public void LogDebug(string message)
-        {
-            Log(message,StatusSeverity.DEBUG,false);
-        }
-
         public void LogDebug(string message, bool isPublic)
         {
             Log(message,StatusSeverity.DEBUG,isPublic);
-        }
-
-        public void LogInfo(string message)
-        {
-            Log(message,StatusSeverity.INFO,false);
         }
 
         public void LogInfo(string message, bool isPublic)
@@ -41,29 +31,14 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
             Log(message,StatusSeverity.INFO,isPublic);
         }
 
-        public void LogKnownCritical(string message)
-        {
-            Log(message,StatusSeverity.EXPECTED_ERROR,false);
-        }
-
         public void LogKnownCritical(string message, bool isPublic)
         {
             Log(message,StatusSeverity.EXPECTED_ERROR,isPublic);
         }
 
-        public void LogUnknownCritical(string message)
-        {
-            Log(message,StatusSeverity.UNEXPECTED_ERROR,false);
-        }
-
         public void LogUnknownCritical(string message, bool isPublic)
         {
             Log(message,StatusSeverity.UNEXPECTED_ERROR,isPublic);
-        }
-
-        public void LogWarning(string message)
-        {
-            Log(message,StatusSeverity.WARN,false);
         }
 
         public void LogWarning(string message, bool isPublic)
