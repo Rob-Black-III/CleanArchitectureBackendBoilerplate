@@ -1,13 +1,20 @@
 using CleanArchitectureBoilerplate.Domain;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CleanArchitectureBoilerplate.Application.Common.Status
 {
-    public class Status : ICleanArchitectureBoilerplateStatus
+    public class Status
     {
+        [JsonProperty]
         private string Message;
+        
+        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonProperty]
         private StatusSeverity Severity;
 
         // Inject logger?
+        [JsonConstructor]
         public Status(string message, StatusSeverity severity){
             Message = message;
             Severity = severity;
@@ -20,36 +27,6 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
         public StatusSeverity GetSeverity(){
             return Severity;
         }
-
-        // public void AddExpectedError(string message)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void AddPrivateInfo(string message)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void AddPublicInfo(string message)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void AddUnexpectedError()
-        // {
-        //     AddUnexpectedError("An internal server error occured.");
-        // }
-
-        // public void AddUnexpectedError(string message)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public void AddWarning(string message)
-        // {
-        //     throw new NotImplementedException();
-        // }
     }
 
 }

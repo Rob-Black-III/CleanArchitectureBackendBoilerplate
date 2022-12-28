@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Domain;
 
 namespace CleanArchitectureBoilerplate.Application.Common.Status
 {
@@ -6,23 +6,24 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
     {
         private List<Status> status;
 
-        private readonly ICleanArchitectureBoilerplateLogger _logger;
-        public StatusService(ICleanArchitectureBoilerplateLogger logger)
+        public StatusService()
         {
             // CTOR called every request.
             status = new List<Status>();
-            _logger = logger;
         }
 
         public void AddStatus(Status e)
         {
             status.Add(e);
-            _logger.Log(e.GetMessage(),e.GetSeverity());
+        }
+
+        public void AddStatus(string message, StatusSeverity severity){
+            Status s = new Status(message, severity);
+            AddStatus(s);
         }
 
         public List<Status> GetAllStatus()
         {
-            _logger.Log("Retrieving statuses...",Domain.StatusSeverity.INFO);
             return status;
         }
     }

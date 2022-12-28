@@ -1,61 +1,65 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CleanArchitectureBoilerplate.API.APIResponseWrapper;
 using CleanArchitectureBoilerplate.API.Authentication;
 using CleanArchitectureBoilerplate.Application.Authentication;
+using CleanArchitectureBoilerplate.Application.Common.Services;
 using Microsoft.AspNetCore.Mvc;
 using static CleanArchitectureBoilerplate.API.Authentication.AuthenticationPresentationDTOs;
 
-namespace CleanArchitectureBoilerplate.API.Controllers;
-
+namespace CleanArchitectureBoilerplate.API.Controllers
+{
     [ApiController]
     [Route("auth")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly ICleanArchitectureBoilerplateLogger _logger;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, ICleanArchitectureBoilerplateLogger logger)
         {
             _authenticationService = authenticationService;
+            _logger = logger;
         }
 
-    [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
-    {
-        var authResult = _authenticationService.Register(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.Password);
+        [HttpPost("register")]
+        public IActionResult Register(RegisterRequest request)
+        {
+            var authResult = _authenticationService.Register(
+                request.FirstName,
+                request.LastName,
+                request.Email,
+                request.Password);
 
-        var response = new AuthenticationResponse(
-            authResult.Id,
-            authResult.FirstName,
-            authResult.LastName,
-            authResult.Email,
-            authResult.Token);
+            var response = new AuthenticationResponse(
+                authResult.Id,
+                authResult.FirstName,
+                authResult.LastName,
+                authResult.Email,
+                authResult.Token);
 
-        return Ok(response);
+            _logger.Log("Authentication request successful. ", Domain.StatusSeverity.INFO, true);
+            _logger.Log("Authentication request successful. ", Domain.StatusSeverity.INFO, true);
+            _logger.Log("Authentication request successful. ", Domain.StatusSeverity.INFO, true);
+
+
+            return Ok(response);
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginRequest request)
+        {
+            var authResult = _authenticationService.Login(
+                request.Email,
+                request.Password);
+
+            var response = new AuthenticationResponse(
+                authResult.Id,
+                authResult.FirstName,
+                authResult.LastName,
+                authResult.Email,
+                authResult.Token);
+            
+
+
+            return Ok(response);
+        }
     }
-
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
-    {
-        var authResult = _authenticationService.Login(
-            request.Email,
-            request.Password);
-
-        var response = new AuthenticationResponse(
-            authResult.Id,
-            authResult.FirstName,
-            authResult.LastName,
-            authResult.Email,
-            authResult.Token);
-        
-
-
-        return Ok(response);
-    }
-    }
+}

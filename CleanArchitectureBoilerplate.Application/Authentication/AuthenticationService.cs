@@ -1,18 +1,27 @@
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Authentication;
+using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Application.Common.Status;
 
 namespace CleanArchitectureBoilerplate.Application.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
+    // DI Services
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly ICleanArchitectureBoilerplateStatusService _statusService;
+    private readonly ICleanArchitectureBoilerplateLogger _logger;
+
+    // DI Repository
 
     // It is important we separate the parameters and return types
     // from our incoming and outgoing API controller DTOS. For proper CA, versioning, etc.
     // Nothing from the API layer (including DTO's) should be referenced here.
 
-    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator)
+    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, 
+    ICleanArchitectureBoilerplateLogger logger)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
+        _logger = logger;
     }
 
     public AuthenticationResult Register(string firstName, string lastName, string email, string password)

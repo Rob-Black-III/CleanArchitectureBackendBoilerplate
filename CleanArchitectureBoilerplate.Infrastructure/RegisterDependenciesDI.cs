@@ -19,7 +19,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure
             // Services
             services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator>();
             services.AddSingleton<IDateTimeProvider,DateTimeProvider>();
-            services.AddSingleton<ICleanArchitectureBoilerplateLogger,SerilogLogger>();
+            services.AddScoped<ICleanArchitectureBoilerplateLogger,SerilogLogger>(); // scoped due to scoped statusService
 
             // Repositories
             services.AddScoped<IProductRepository, ProductRepository>();

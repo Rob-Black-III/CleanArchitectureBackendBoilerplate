@@ -1,5 +1,6 @@
 
 using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Application.Common.Status;
 using CleanArchitectureBoilerplate.Domain;
 using Serilog;
 
@@ -7,8 +8,12 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
 {
     public class SerilogLogger : ICleanArchitectureBoilerplateLogger
     {
+        private readonly ICleanArchitectureBoilerplateStatusService _statusService;
 
-        public SerilogLogger(){
+        public SerilogLogger(ICleanArchitectureBoilerplateStatusService statusService)
+        {
+            _statusService = statusService;
+
             Serilog.Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .WriteTo.Console()
@@ -16,10 +21,14 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
                 .CreateLogger();
         }
 
-        public void Log(string message, StatusSeverity severity)
+        public void Log(string message, StatusSeverity severity, bool isPublic)
         {
             switch(severity){
-                case StatusSeverity.INFO or StatusSeverity.PRIVATE_INFO:
+                case StatusSeverity.DEBUG:
+                    // TODO Check if debug is set in configuration.
+                    Serilog.Log.Debug(message);
+                    break;
+                case StatusSeverity.INFO:
                     Serilog.Log.Information(message);
                     break;
                 case StatusSeverity.EXPECTED_ERROR or StatusSeverity.UNEXPECTED_ERROR:
@@ -32,6 +41,15 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
                     Serilog.Log.Warning(message);
                     break;
             }
+
+            if(isPublic){
+                _statusService.AddStatus(message,severity);
+            }
+        }
+
+        public void Log(string message, StatusSeverity severity)
+        {
+            Log(message, severity, false);
         }
     }
 }

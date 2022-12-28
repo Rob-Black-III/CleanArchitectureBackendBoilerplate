@@ -6,14 +6,15 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             // Error Handling goes before other middleware  (logging, etc.)
             // https://stackoverflow.com/questions/56691859/net-core-order-of-middleware
             builder.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
-            // Logging
-
-            // Used for having a GUID for logs. Also show on frontend in event of 'Unexpected Error'
-            builder.UseMiddleware<TraceIDMiddleware>();
+            builder.UseMiddleware<ResponseWrapper>();
 
             // Construct our API Response Payload;
-            builder.UseMiddleware<APIResponseMiddleware>();
+            // TraceID has to resolve first for this, therefore it is placed after.
+            //builder.UseMiddleware<APIResponseMiddleware>();
+
+            // Used for having a GUID for logs. Also show on frontend in event of 'Unexpected Error'
+            //builder.UseMiddleware<TraceIDMiddleware>();
+
             return builder;
         }
     }
