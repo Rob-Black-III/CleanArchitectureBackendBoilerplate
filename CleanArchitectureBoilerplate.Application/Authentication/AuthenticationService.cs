@@ -1,6 +1,5 @@
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Services;
-using CleanArchitectureBoilerplate.Application.Common.Status;
 
 namespace CleanArchitectureBoilerplate.Application.Authentication;
 
@@ -8,7 +7,6 @@ public class AuthenticationService : IAuthenticationService
 {
     // DI Services
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly ICleanArchitectureBoilerplateStatusService _statusService;
     private readonly ICleanArchitectureBoilerplateLogger _logger;
 
     // DI Repository

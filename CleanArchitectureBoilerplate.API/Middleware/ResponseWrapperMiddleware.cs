@@ -3,6 +3,10 @@ using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
 using Newtonsoft.Json;
 
+/*
+TODO couples our api to payload of type JSON. Need to find a better implementation.
+See 'APIResponseExecutor'. Couldn't get it working. If so, replace this.
+*/
 namespace CleanArchitectureBoilerplate.API.Middleware
 {
     public class ResponseWrapperMiddleware

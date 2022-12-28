@@ -37,7 +37,7 @@ namespace CleanArchitectureBoilerplate.API.Controllers
                 authResult.Email,
                 authResult.Token);
 
-            _logger.LogDebug("Exiting Register Controller...", false);
+            _logger.LogDebug("Exiting Register Controller...");
 
             return Ok(response);
         }
