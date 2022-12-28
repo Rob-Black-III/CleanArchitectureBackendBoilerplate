@@ -21,7 +21,62 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
                 .CreateLogger();
         }
 
-        public void Log(string message, StatusSeverity severity, bool isPublic)
+        public void LogDebug(string message)
+        {
+            Log(message,StatusSeverity.DEBUG,false);
+        }
+
+        public void LogDebug(string message, bool isPublic)
+        {
+            Log(message,StatusSeverity.DEBUG,isPublic);
+        }
+
+        public void LogInfo(string message)
+        {
+            Log(message,StatusSeverity.INFO,false);
+        }
+
+        public void LogInfo(string message, bool isPublic)
+        {
+            Log(message,StatusSeverity.INFO,isPublic);
+        }
+
+        public void LogKnownCritical(string message)
+        {
+            Log(message,StatusSeverity.EXPECTED_ERROR,false);
+        }
+
+        public void LogKnownCritical(string message, bool isPublic)
+        {
+            Log(message,StatusSeverity.EXPECTED_ERROR,isPublic);
+        }
+
+        public void LogUnknownCritical(string message)
+        {
+            Log(message,StatusSeverity.UNEXPECTED_ERROR,false);
+        }
+
+        public void LogUnknownCritical(string message, bool isPublic)
+        {
+            Log(message,StatusSeverity.UNEXPECTED_ERROR,isPublic);
+        }
+
+        public void LogWarning(string message)
+        {
+            Log(message,StatusSeverity.WARN,false);
+        }
+
+        public void LogWarning(string message, bool isPublic)
+        {
+            Log(message,StatusSeverity.WARN,isPublic);
+        }
+
+        /*
+        Helper
+        Logs the request, and optionally adds a public-facing status message to the API Response.
+        Abstraction layer from our logging status to Serilog's status.
+        */
+        private void Log(string message, StatusSeverity severity, bool isPublic)
         {
             switch(severity){
                 case StatusSeverity.DEBUG:
@@ -47,7 +102,11 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
             }
         }
 
-        public void Log(string message, StatusSeverity severity)
+        /*
+        Helper
+        If isPublic is unspecified, assume false.
+        */
+        private void Log(string message, StatusSeverity severity)
         {
             Log(message, severity, false);
         }

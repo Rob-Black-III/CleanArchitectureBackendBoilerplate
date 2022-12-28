@@ -22,6 +22,8 @@ namespace CleanArchitectureBoilerplate.API.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
+            _logger.LogDebug("Entering Register Controller...", false);
+
             var authResult = _authenticationService.Register(
                 request.FirstName,
                 request.LastName,
@@ -35,10 +37,7 @@ namespace CleanArchitectureBoilerplate.API.Controllers
                 authResult.Email,
                 authResult.Token);
 
-            _logger.Log("Authentication request successful. ", Domain.StatusSeverity.INFO, true);
-            _logger.Log("Authentication request successful. ", Domain.StatusSeverity.INFO, true);
-            _logger.Log("Authentication request successful. ", Domain.StatusSeverity.INFO, true);
-
+            _logger.LogDebug("Exiting Register Controller...", false);
 
             return Ok(response);
         }
@@ -56,8 +55,6 @@ namespace CleanArchitectureBoilerplate.API.Controllers
                 authResult.LastName,
                 authResult.Email,
                 authResult.Token);
-            
-
 
             return Ok(response);
         }

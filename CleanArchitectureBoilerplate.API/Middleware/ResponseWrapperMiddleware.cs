@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 
 namespace CleanArchitectureBoilerplate.API.Middleware
 {
-public class ResponseWrapper
+    public class ResponseWrapperMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public ResponseWrapper(RequestDelegate next)
+        public ResponseWrapperMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -28,6 +28,8 @@ public class ResponseWrapper
                 string id = context.TraceIdentifier;
                 context.Response.Headers["X-Trace-Id"] = id;
 
+                logger.Log($"Created GUID traceID: {id}", Domain.StatusSeverity.DEBUG);
+
                 await _next(context);
 
                 //reset the body 
@@ -38,15 +40,14 @@ public class ResponseWrapper
                 var objResult = JsonConvert.DeserializeObject(readToEnd);
 
                 APIResponse result = new APIResponse();
-                result.issues =  statusService.GetAllStatus();
+                result.issues = statusService.GetAllStatus();
                 result.traceID = context.TraceIdentifier;
                 result.payload = objResult;
 
-                logger.Log(JsonConvert.SerializeObject(result.issues),Domain.StatusSeverity.INFO,false);
+                logger.Log("Writing API Response Wrapper payload...", Domain.StatusSeverity.DEBUG);
 
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
             }
         }
-
     }
 }

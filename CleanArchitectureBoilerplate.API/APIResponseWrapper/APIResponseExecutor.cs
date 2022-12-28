@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 
+
+/*
+TODO NOT CURRENTLY WORKING. RETURNS {}. WOULD LIKE TO USE THIS INSTEAD OF
+RESPONSEWRAPPERMIDDLEWARE.CS IN API/MIDDLEWARE/
+*/
 namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 {
     internal class APIResponseExecutor : ObjectResultExecutor
