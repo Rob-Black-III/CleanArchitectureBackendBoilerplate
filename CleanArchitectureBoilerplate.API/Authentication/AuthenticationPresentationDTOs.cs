@@ -7,15 +7,15 @@ namespace CleanArchitectureBoilerplate.API.Authentication
         string LastName,
         string Email,
         string Token);
+
+        public record LoginRequest(
+        string Email,
+        string Password);
+
+        public record RegisterRequest(
+        string FirstName,
+        string LastName,
+        string Email,
+        string Password);
     }
-
-    public record LoginRequest(
-    string Email,
-    string Password);
-
-    public record RegisterRequest(
-    string FirstName,
-    string LastName,
-    string Email,
-    string Password);
 }

@@ -1,12 +1,14 @@
-using CleanArchitectureBoilerplate.API.Authentication;
 using CleanArchitectureBoilerplate.Application.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Services;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using static CleanArchitectureBoilerplate.API.Authentication.AuthenticationPresentationDTOs;
 
 namespace CleanArchitectureBoilerplate.API.Controllers
 {
-    [ApiController]
+    [ApiController] // Decorator gives us 400 modelIsValid checks out of the box
     [Route("auth")]
     public class AuthenticationController : ControllerBase
     {
@@ -20,9 +22,21 @@ namespace CleanArchitectureBoilerplate.API.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public IActionResult Register(RegisterRequest request, IValidator<RegisterRequest> validator)
         {
             _logger.LogDebug("Entering Register Controller...");
+
+            ValidationResult validationResult = validator.Validate(request);
+
+            if(!validationResult.IsValid) 
+            {
+                foreach (ValidationFailure failure in validationResult.Errors)
+                {
+                    _logger.LogKnownCritical(failure.ErrorMessage, true);
+                }
+                return BadRequest(new JObject());
+            }
+
 
             var authResult = _authenticationService.Register(
                 request.FirstName,
