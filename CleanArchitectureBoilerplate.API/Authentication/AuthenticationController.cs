@@ -39,8 +39,14 @@ namespace CleanArchitectureBoilerplate.API.Controllers
                 //     _logger.LogKnownCritical(failure.ErrorMessage);
                 // }
 
-                _statusService.AddStatus(StatusType.VALIDATION_ISSUE, String.Join(',', validationResult.Errors), StatusSeverity.ERROR);
-                _logger.LogKnownCritical(String.Join(" ", validationResult.Errors));
+                // Log the validation errors
+                _logger.LogInfo(String.Join(" ", validationResult.Errors));
+
+                // Send validation errors back to the frontend for toast and such.
+                List<string> validationErrors = new List<string>();
+                validationResult.Errors.ForEach(f => validationErrors.Add(f.ErrorMessage));
+                _statusService.AddStatus(StatusType.VALIDATION_ISSUE, validationErrors, StatusSeverity.ERROR);
+
                 return BadRequest(new JObject());
             }
 

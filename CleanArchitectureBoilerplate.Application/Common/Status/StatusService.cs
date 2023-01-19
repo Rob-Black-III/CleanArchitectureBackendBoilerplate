@@ -25,6 +25,11 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
             Status s = new Status(message, severity, title);
             AddStatus(s);
         }
+        public void AddStatus(string title, List<string> messages, StatusSeverity severity)
+        {
+            Status s = new Status(messages, severity, title);
+            AddStatus(s);
+        }
 
         public List<Status> GetAllStatus()
         {

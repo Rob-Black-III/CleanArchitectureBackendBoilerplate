@@ -1,4 +1,3 @@
-using CleanArchitectureBoilerplate.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -11,16 +10,25 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
         private string Title; // Human readable title for the error (i.e. Validation Error)
 
         [JsonProperty]
-        private string Message; // Message 
+        private List<string> Messages; // Messages
         
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty]
         private StatusSeverity Severity;
 
         // Inject logger?
-        [JsonConstructor]
         public Status(string message, StatusSeverity severity, string title = "Status"){
-            Message = message;
+            Messages = new List<string>();
+            Messages.Add(message);
+            Severity = severity;
+            Title = title;
+        }
+
+        // Inject logger?
+        [JsonConstructor]
+        public Status(List<string> messages, StatusSeverity severity, string title = "Status")
+        {
+            Messages = messages;
             Severity = severity;
             Title = title;
         }
@@ -29,8 +37,8 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
         {
             return Severity;
         }
-        public string GetMessage(){
-            return Message;
+        public List<string> GetMessages(){
+            return Messages;
         }
 
         public string GetTitle(){
