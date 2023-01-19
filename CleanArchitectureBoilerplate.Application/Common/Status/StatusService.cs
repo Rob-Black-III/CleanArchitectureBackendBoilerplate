@@ -1,5 +1,3 @@
-using CleanArchitectureBoilerplate.Domain;
-
 namespace CleanArchitectureBoilerplate.Application.Common.Status
 {
     public class StatusService : ICleanArchitectureBoilerplateStatusService
@@ -19,6 +17,12 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
 
         public void AddStatus(string message, StatusSeverity severity){
             Status s = new Status(message, severity);
+            AddStatus(s);
+        }
+
+        public void AddStatus(string title, string message, StatusSeverity severity)
+        {
+            Status s = new Status(message, severity, title);
             AddStatus(s);
         }
 

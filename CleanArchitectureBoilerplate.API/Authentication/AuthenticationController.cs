@@ -1,8 +1,10 @@
 using CleanArchitectureBoilerplate.Application.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Application.Common.Status;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json.Linq;
 using static CleanArchitectureBoilerplate.API.Authentication.AuthenticationPresentationDTOs;
 
@@ -13,27 +15,32 @@ namespace CleanArchitectureBoilerplate.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly ICleanArchitectureBoilerplateStatusService _statusService;
         private readonly ICleanArchitectureBoilerplateLogger _logger;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ICleanArchitectureBoilerplateLogger logger)
+        public AuthenticationController(IAuthenticationService authenticationService, ICleanArchitectureBoilerplateStatusService statusService, ICleanArchitectureBoilerplateLogger logger)
         {
             _authenticationService = authenticationService;
+            _statusService = statusService;
             _logger = logger;
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request, IValidator<RegisterRequest> validator)
+        public async Task<IActionResult> Register(RegisterRequest request, IValidator<RegisterRequest> validator)
         {
             _logger.LogDebug("Entering Register Controller...");
 
-            ValidationResult validationResult = validator.Validate(request);
+            ValidationResult validationResult = await validator.ValidateAsync(request);
 
             if(!validationResult.IsValid) 
             {
-                foreach (ValidationFailure failure in validationResult.Errors)
-                {
-                    _logger.LogKnownCritical(failure.ErrorMessage, true);
-                }
+                // foreach (ValidationFailure failure in validationResult.Errors)
+                // {
+                //     _logger.LogKnownCritical(failure.ErrorMessage);
+                // }
+
+                _statusService.AddStatus(StatusType.VALIDATION_ISSUE, String.Join(',', validationResult.Errors), StatusSeverity.ERROR);
+                _logger.LogKnownCritical(String.Join(" ", validationResult.Errors));
                 return BadRequest(new JObject());
             }
 

@@ -6,8 +6,12 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
 {
     public class Status
     {
+
         [JsonProperty]
-        private string Message;
+        private string Title; // Human readable title for the error (i.e. Validation Error)
+
+        [JsonProperty]
+        private string Message; // Message 
         
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty]
@@ -15,17 +19,22 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
 
         // Inject logger?
         [JsonConstructor]
-        public Status(string message, StatusSeverity severity){
+        public Status(string message, StatusSeverity severity, string title = "Status"){
             Message = message;
             Severity = severity;
+            Title = title;
         }
 
+        public StatusSeverity GetSeverity()
+        {
+            return Severity;
+        }
         public string GetMessage(){
             return Message;
         }
 
-        public StatusSeverity GetSeverity(){
-            return Severity;
+        public string GetTitle(){
+            return Title;
         }
     }
 

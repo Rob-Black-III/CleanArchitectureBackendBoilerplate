@@ -6,7 +6,7 @@ namespace CleanArchitectureBoilerplate.Application.Common.Status
     {
         public List<Status> GetAllStatus();
 
-        public void AddStatus(string message, StatusSeverity severity);
+        public void AddStatus(string title, string message, StatusSeverity severity);
 
         public void AddStatus(Status s);
     }
