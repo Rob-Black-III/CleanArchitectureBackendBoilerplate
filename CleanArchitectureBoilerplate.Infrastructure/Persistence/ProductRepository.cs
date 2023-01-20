@@ -9,6 +9,9 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
 {
     public class ProductRepository : IProductRepository
     {
+        // Parent XREF for categories. 
+        // Category object has a reference to Category? parentCategory
+        // Product has many List<Categories>? parentCategories 
         public async Task<Product> GetByIdAsync(Guid id)
         {
             //var test = await Task.FromResult();

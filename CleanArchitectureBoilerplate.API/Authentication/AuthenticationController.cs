@@ -3,6 +3,7 @@ using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json.Linq;
@@ -41,6 +42,7 @@ namespace CleanArchitectureBoilerplate.API.Controllers
 
                 // Log the validation errors
                 _logger.LogInfo(String.Join(" ", validationResult.Errors));
+                _logger.LogInfo("Test");
 
                 // Send validation errors back to the frontend for toast and such.
                 List<string> validationErrors = new List<string>();
@@ -64,6 +66,7 @@ namespace CleanArchitectureBoilerplate.API.Controllers
                 authResult.Email,
                 authResult.Token);
 
+            _logger.LogInfo("Test");
             _logger.LogDebug("Exiting Register Controller...");
 
             return Ok(response);

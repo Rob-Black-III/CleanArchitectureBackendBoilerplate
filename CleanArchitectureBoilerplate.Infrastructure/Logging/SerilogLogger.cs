@@ -9,6 +9,8 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
     {
         private readonly ICleanArchitectureBoilerplateStatusService _statusService;
 
+        private string? traceID;
+
         public SerilogLogger(ICleanArchitectureBoilerplateStatusService statusService)
         {
             _statusService = statusService;
@@ -18,6 +20,10 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
                 .WriteTo.Console()
                 .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
+        }
+
+        public void SetTraceID(string tId){
+            traceID = tId;
         }
 
         public void LogDebug(string message)
@@ -55,19 +61,19 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
             switch(severity){
                 case StatusSeverity.DEBUG:
                     // TODO Check if debug is set in configuration.
-                    Serilog.Log.Debug(message);
+                    Serilog.Log.Debug(traceID + ": " + message);
                     break;
                 case StatusSeverity.INFO:
-                    Serilog.Log.Information(message);
+                    Serilog.Log.Information(traceID + ": " + message);
                     break;
                 case StatusSeverity.ERROR or StatusSeverity.UNEXPECTED_ERROR:
-                    Serilog.Log.Error(message);
+                    Serilog.Log.Error(traceID + ": " + message);
                     break;
                 case StatusSeverity.WARN:
-                    Serilog.Log.Warning(message);
+                    Serilog.Log.Warning(traceID + ": " + message);
                     break;
                 default:
-                    Serilog.Log.Warning(message);
+                    Serilog.Log.Warning(traceID + ": " + message);
                     break;
             }
         }

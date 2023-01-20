@@ -32,7 +32,8 @@ namespace CleanArchitectureBoilerplate.API.Middleware
                 string id = context.TraceIdentifier;
                 context.Response.Headers["X-Trace-Id"] = id;
 
-                logger.LogDebug($"Created GUID traceID: {id}");
+                logger.SetTraceID(id);
+                logger.LogDebug($"Creeated GUID traceID: {id}");
 
                 await _next(context);
 

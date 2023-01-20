@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 
 /*
+DEPRECATED
 TODO NOT CURRENTLY WORKING. RETURNS {}. WOULD LIKE TO USE THIS INSTEAD OF
 RESPONSEWRAPPERMIDDLEWARE.CS IN API/MIDDLEWARE/
 */
