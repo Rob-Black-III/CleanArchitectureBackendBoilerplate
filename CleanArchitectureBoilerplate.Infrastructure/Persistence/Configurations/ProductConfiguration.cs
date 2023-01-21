@@ -10,8 +10,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(b => b.Id);
 
-            builder.Property(b => b.Id)
-                .ValueGeneratedNever();
+            builder.Property(b => b.Id).ValueGeneratedOnAdd();
 
             builder.Property(b => b.Name).HasMaxLength(Product.MaxNameLength);
 

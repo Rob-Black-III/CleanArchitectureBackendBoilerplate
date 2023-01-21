@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Domain.Entities;
 
 namespace CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence
 {
-    public interface IProductRepository
+    // Our product repo should also have generic repository operations. IRepository<Product>
+    // In addition to custom operations defined here. IProductRepository
+
+    // Should inject the interface since we don't care about EF in this layer
+    public interface IProductRepository : IRepository<Product>
     {
         // Product-specific queries (get categories perhaps?)
-        Task<Product> GetByIdAsync(Guid id);
+        Task<IEnumerable<string>> GetAllPurchasers();
     }
 }

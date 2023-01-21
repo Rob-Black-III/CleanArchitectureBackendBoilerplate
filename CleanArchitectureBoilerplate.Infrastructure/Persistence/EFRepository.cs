@@ -1,9 +1,6 @@
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
+using CleanArchitectureBoilerplate.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
@@ -13,7 +10,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
     //However, for testing and to decouple EFCore with our Infrastructure layer,
     //I decided to abstract this to an IRepository for our Application and Infrastructure layers.
     
-    public class EFRepository<T> : IRepository<T> where T : class
+    public class EFRepository<T> : IRepository<T> where T : class, IAggregateRoot
     {
         protected readonly CleanArchitectureBoilerplateDbContext _dbContext;
 
