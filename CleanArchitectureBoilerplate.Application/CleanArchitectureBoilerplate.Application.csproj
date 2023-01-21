@@ -3,6 +3,8 @@
     <ProjectReference Include="..\CleanArchitectureBoilerplate.Domain\CleanArchitectureBoilerplate.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>

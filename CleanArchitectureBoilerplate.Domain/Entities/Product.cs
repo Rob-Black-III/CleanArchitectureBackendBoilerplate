@@ -21,7 +21,8 @@ namespace CleanArchitectureBoilerplate.Domain.Entities
 
 
         // May be used by EF Core
-        private Product() {}
+        // Had to make public for Mapster? TODO fix, don't want people instantiating it like this.
+        public Product() {}
 
         private Product(Guid id, string partNumber, string name, string description, int stock, decimal price, decimal weight)
         {

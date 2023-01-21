@@ -3,6 +3,7 @@ namespace CleanArchitectureBoilerplate.Domain.Common
     public abstract class Entity
     {
         int? _requestedHashCode;
+
         public virtual Guid Id { get; protected set; }
 
         public bool IsTransient()

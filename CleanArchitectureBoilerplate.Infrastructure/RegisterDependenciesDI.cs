@@ -1,7 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
 using CleanArchitectureBoilerplate.Application.Common.Services;
-using CleanArchitectureBoilerplate.Domain.Entities;
 using CleanArchitectureBoilerplate.Infrastructure.Authentication;
 using CleanArchitectureBoilerplate.Infrastructure.Logging;
 using CleanArchitectureBoilerplate.Infrastructure.Persistence;

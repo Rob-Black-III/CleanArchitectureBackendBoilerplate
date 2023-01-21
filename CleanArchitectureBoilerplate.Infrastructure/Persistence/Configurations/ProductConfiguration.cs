@@ -10,9 +10,9 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(b => b.Id);
 
-            builder.Property(b => b.Id).ValueGeneratedOnAdd();
+            builder.Property(b => b.Id).ValueGeneratedOnAdd().IsRequired();
 
-            builder.Property(b => b.Name).HasMaxLength(Product.MaxNameLength);
+            builder.Property(b => b.Name).HasMaxLength(Product.MaxNameLength).IsRequired();
 
             builder.Property(b => b.Description).HasMaxLength(Product.MaxDescriptionLength);
         }

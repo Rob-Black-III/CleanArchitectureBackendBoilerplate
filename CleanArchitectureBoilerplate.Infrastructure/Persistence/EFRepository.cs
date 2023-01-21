@@ -1,4 +1,5 @@
 
+using System.Linq.Expressions;
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
 using CleanArchitectureBoilerplate.Domain.Common;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,16 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
             //return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().AnyAsync(predicate);
+        }
+
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            return _dbContext.Set<T>().Where(predicate);
+        }
+
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
@@ -40,6 +51,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
             await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
 
+            // Id will be automagically filled in.
             return entity;
         }
 

@@ -1,13 +1,16 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using CleanArchitectureBoilerplate.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 
 namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
 {
     public class CleanArchitectureBoilerplateDbContext : DbContext
     {
-        public CleanArchitectureBoilerplateDbContext(DbContextOptions options) : base(options)
+        protected readonly IConfiguration _configuration;
+        public CleanArchitectureBoilerplateDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
+            _configuration = configuration;
         }
 
         // The "Product" would be stored in the domain layer, but our Infrastructure layer (this)
@@ -21,6 +24,11 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"));
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Domain.Common;
 
@@ -11,6 +12,8 @@ namespace CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence
     public interface IRepository<T> where T : IAggregateRoot
     {
         Task<T> GetByIdAsync(Guid id);
+        Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
+        IQueryable<T> Where(Expression<Func<T, bool>> predicate);
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);

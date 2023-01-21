@@ -24,6 +24,7 @@ var app = builder.Build();
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        
     }
 
     app.UseHttpsRedirection();
@@ -37,3 +38,19 @@ var app = builder.Build();
 
     app.Run();
 }
+// https://stackoverflow.com/questions/38238043/how-and-where-to-call-database-ensurecreated-and-database-migrate
+// public static void EnsureDatabaseCreated()
+// {
+//     var optionsBuilder = new DbContextOptionsBuilder();
+//     if (HostingEnvironment.IsDevelopment()) optionsBuilder.UseSqlServer(Configuration["Data:dev:DataContext"]);
+//     else if (HostingEnvironment.IsStaging()) optionsBuilder.UseSqlServer(Configuration["Data:staging:DataContext"]);
+//     else if (HostingEnvironment.IsProduction()) optionsBuilder.UseSqlServer(Configuration["Data:live:DataContext"]);
+//     var context = new ApplicationContext(optionsBuilder.Options);
+//     context.Database.EnsureCreated();
+
+//     optionsBuilder = new DbContextOptionsBuilder();
+//     if (HostingEnvironment.IsDevelopment()) optionsBuilder.UseSqlServer(Configuration["Data:dev:TransientContext"]);
+//     else if (HostingEnvironment.IsStaging()) optionsBuilder.UseSqlServer(Configuration["Data:staging:TransientContext"]);
+//     else if (HostingEnvironment.IsProduction()) optionsBuilder.UseSqlServer(Configuration["Data:live:TransientContext"]);
+//     new TransientContext(optionsBuilder.Options).Database.EnsureCreated();
+// }
