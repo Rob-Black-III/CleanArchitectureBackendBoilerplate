@@ -2,6 +2,7 @@
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
 using Serilog;
+using Serilog.Exceptions;
 
 namespace CleanArchitectureBoilerplate.Infrastructure.Logging
 {
@@ -17,6 +18,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
 
             Serilog.Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
+                .Enrich.WithExceptionDetails()
                 .WriteTo.Console()
                 .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();

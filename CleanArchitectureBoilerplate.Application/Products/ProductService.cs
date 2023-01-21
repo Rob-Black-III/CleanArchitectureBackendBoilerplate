@@ -37,10 +37,10 @@ namespace CleanArchitectureBoilerplate.Application.Products
         public async Task<ProductResult> GetProductById(Guid id)
         {
             // Get the product from the DB
-            var product = await _productRepository.GetByIdAsync(id);
+            Product p = await _productRepository.GetByIdAsync(id);
 
             // Map the DAL "product" to the service-layer ProductResult
-            return null;
+            return _mapper.Map<ProductResult>(p);
         }
     }
 }

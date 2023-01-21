@@ -27,7 +27,8 @@ namespace CleanArchitectureBoilerplate.API.Middleware
         }
         private async void HandleException(HttpContext context, Exception ex, ICleanArchitectureBoilerplateLogger logger)
         {
-             logger.LogUnknownCritical(ex.ToString());
+            logger.LogUnknownCritical(ex.ToString());
+            //logger.LogUnknownCritical($"HTTP Status Code: {context.Response.StatusCode} - {ex.Message}");
         }
     }
 }

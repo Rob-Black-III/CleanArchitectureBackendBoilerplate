@@ -20,20 +20,17 @@ namespace CleanArchitectureBoilerplate.API.Middleware
 
         public async Task Invoke(HttpContext context, ICleanArchitectureBoilerplateStatusService statusService, ICleanArchitectureBoilerplateLogger logger)
         {
+
+            // Before we mess up anything, set the traceID so we can figure it out later.
+            APIResponse result = new APIResponse();
+            result.traceID = context.TraceIdentifier;
+            
             var currentBody = context.Response.Body;
 
             using (var memoryStream = new MemoryStream())
             {
                 //set the current response to the memorystream.
                 context.Response.Body = memoryStream;
-
-                //Set the traceID for execution
-                context.TraceIdentifier = Guid.NewGuid().ToString();
-                string id = context.TraceIdentifier;
-                context.Response.Headers["X-Trace-Id"] = id;
-
-                logger.SetTraceID(id);
-                logger.LogDebug($"Creeated GUID traceID: {id}");
 
                 await _next(context);
 
@@ -44,9 +41,8 @@ namespace CleanArchitectureBoilerplate.API.Middleware
                 var readToEnd = new StreamReader(memoryStream).ReadToEnd();
                 var objResult = JsonConvert.DeserializeObject(readToEnd);
 
-                APIResponse result = new APIResponse();
+                // On the response, fill out scoped response info (payload and issues)
                 result.issues = statusService.GetAllStatus();
-                result.traceID = context.TraceIdentifier;
                 result.payload = objResult;
 
                 logger.LogDebug("Writing API Response Wrapper payload...");

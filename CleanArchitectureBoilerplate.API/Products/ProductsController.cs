@@ -30,12 +30,12 @@ namespace CleanArchitectureBoilerplate.API.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             // Get service-layer "ProductResult" (to not expose Domain entities)
-            var productResult = _productService.GetProductById(id);
+            ProductResult productResult = await _productService.GetProductById(id);
 
             // Map our service-layer "ProductResult" DTO to our presentation "ProductResponse" DTO
 
             // Return our "ProductResponse"
-            return null;
+            return Ok(productResult);
         }
 
         [HttpPost("add")]
