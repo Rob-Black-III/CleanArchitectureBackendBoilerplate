@@ -15,7 +15,12 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
     {
 
         private readonly ICleanArchitectureBoilerplateStatusService _statusService;
-        public APIResponseExecutor(ICleanArchitectureBoilerplateStatusService statusService, OutputFormatterSelector formatterSelector, IHttpResponseStreamWriterFactory writerFactory, ILoggerFactory loggerFactory, IOptions<MvcOptions> mvcOptions) : base(formatterSelector, writerFactory, loggerFactory, mvcOptions)
+        public APIResponseExecutor(
+            ICleanArchitectureBoilerplateStatusService statusService, 
+            OutputFormatterSelector formatterSelector, 
+            IHttpResponseStreamWriterFactory writerFactory, 
+            ILoggerFactory loggerFactory, 
+            IOptions<MvcOptions> mvcOptions) : base(formatterSelector, writerFactory, loggerFactory, mvcOptions)
         {
             _statusService = statusService;
         }

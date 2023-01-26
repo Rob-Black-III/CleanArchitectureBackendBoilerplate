@@ -10,7 +10,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
     {
         private readonly ICleanArchitectureBoilerplateStatusService _statusService;
 
-        private string? traceID;
+        private string? traceID = default;
 
         public SerilogLogger(ICleanArchitectureBoilerplateStatusService statusService)
         {
