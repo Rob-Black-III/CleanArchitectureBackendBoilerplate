@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 DEPRECATED
 TODO NOT CURRENTLY WORKING. RETURNS {}. WOULD LIKE TO USE THIS INSTEAD OF
 RESPONSEWRAPPERMIDDLEWARE.CS IN API/MIDDLEWARE/
+https://learn.microsoft.com/en-us/answers/questions/469027/proper-way-of-wrapping-the-response-along-with-exc
 */
 namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 {
