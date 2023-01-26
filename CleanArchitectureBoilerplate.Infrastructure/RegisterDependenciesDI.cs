@@ -1,6 +1,8 @@
+using CleanArchitectureBoilerplate.Application.Accounts;
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
 using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Infrastructure.Accounts;
 using CleanArchitectureBoilerplate.Infrastructure.Authentication;
 using CleanArchitectureBoilerplate.Infrastructure.Logging;
 using CleanArchitectureBoilerplate.Infrastructure.Persistence;
@@ -21,8 +23,12 @@ namespace CleanArchitectureBoilerplate.Infrastructure
             services.AddSingleton<IDateTimeProvider,DateTimeProvider>();
             services.AddScoped<ICleanArchitectureBoilerplateLogger,SerilogLogger>(); // scoped due to scoped statusService
 
+            services.AddScoped<IAccountService, AccountService>();
+
             // Repositories
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            
         
             services.AddDbContext<CleanArchitectureBoilerplateDbContext>();
             //services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
