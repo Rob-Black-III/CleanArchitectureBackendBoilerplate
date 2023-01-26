@@ -6,12 +6,17 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
     // Considered getting rid of this and either returning 
     // an endpoint-specific payload or a problemdetail object.
     // The question: Is there any additional meta data we need on a succesful request?
-    public class APIResponse
+    internal class APIResponse
     {
         // For logging. GUID
-        public string traceID = null!;
+        private string TraceID {get; init;} = null!;
         public object? payload;
 
         public List<Status>? issues;
+
+        public APIResponse(string traceID)
+        {
+            TraceID = traceID;
+        }
     }
 }

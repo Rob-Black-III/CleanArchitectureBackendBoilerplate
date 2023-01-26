@@ -22,8 +22,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
         {
 
             // Before we mess up anything, set the traceID so we can figure it out later.
-            APIResponse result = new APIResponse();
-            result.traceID = context.TraceIdentifier;
+            APIResponse result = new APIResponse(context.TraceIdentifier);
             
             var currentBody = context.Response.Body;
 
