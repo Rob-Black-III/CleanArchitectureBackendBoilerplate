@@ -5,7 +5,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
 {
     // EFRepo<T> Gives us generic implementations (getbyid, etc.)
     // IProductRepo gives up product-specific stuff.
-    public class ProductRepository : EFRepository<Product>, IProductRepository
+    internal class ProductRepository : EFRepository<Product>, IProductRepository
     {
         public ProductRepository(CleanArchitectureBoilerplateDbContext dbContext) : base(dbContext)
         {

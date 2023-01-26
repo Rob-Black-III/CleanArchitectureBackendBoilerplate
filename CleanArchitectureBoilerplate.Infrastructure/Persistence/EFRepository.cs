@@ -10,8 +10,11 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Persistence
     //EFCore already provides the Repository and UnitOfWork via the DBContext and DBSets.
     //However, for testing and to decouple EFCore with our Infrastructure layer,
     //I decided to abstract this to an IRepository for our Application and Infrastructure layers.
+
+    // For our purposes, "repository" is just a specific type of "service".
+    // Services should be in the infrastructure layer
     
-    public class EFRepository<T> : IRepository<T> where T : class, IAggregateRoot
+    abstract internal class EFRepository<T> : IRepository<T> where T : class, IAggregateRoot
     {
         protected readonly CleanArchitectureBoilerplateDbContext _dbContext;
 

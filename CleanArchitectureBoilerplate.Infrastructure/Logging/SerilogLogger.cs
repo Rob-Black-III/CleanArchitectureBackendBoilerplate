@@ -6,7 +6,7 @@ using Serilog.Exceptions;
 
 namespace CleanArchitectureBoilerplate.Infrastructure.Logging
 {
-    public class SerilogLogger : ICleanArchitectureBoilerplateLogger
+    internal class SerilogLogger : ICleanArchitectureBoilerplateLogger
     {
         private readonly ICleanArchitectureBoilerplateStatusService _statusService;
 

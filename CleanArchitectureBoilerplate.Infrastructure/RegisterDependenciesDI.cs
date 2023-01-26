@@ -25,7 +25,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure
             services.AddScoped<IProductRepository, ProductRepository>();
         
             services.AddDbContext<CleanArchitectureBoilerplateDbContext>();
-            services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            //services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
             //services.AddScoped<IMyDbContext, MyDbContext>();
             
             return services;

@@ -3,6 +3,9 @@ using Newtonsoft.Json.Converters;
 
 namespace CleanArchitectureBoilerplate.Application.Common.Status
 {
+    // 1/26/23 - TODO Swap out with ProblemDetails?
+    // Do we need support for IEnumerable. Will we ever have multiple error's
+    // https://stackoverflow.com/questions/45758024/use-custom-validation-responses-with-fluent-validation
     public class Status
     {
 
