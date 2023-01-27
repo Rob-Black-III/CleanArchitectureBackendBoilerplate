@@ -1,6 +1,7 @@
 
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Exceptions;
 
@@ -30,27 +31,46 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Logging
 
         public void LogDebug(string message)
         {
-            Log(message,StatusSeverity.DEBUG);
+            // Performance wrapper. Saves unneccesary call and heap allocation.
+            if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Debug))
+            {
+                Log(message, StatusSeverity.DEBUG);
+            }
         }
 
         public void LogInfo(string message)
         {
-            Log(message,StatusSeverity.INFO);
+            // Performance wrapper. Saves unneccesary call and heap allocation.
+            if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Information))
+            {
+                Log(message, StatusSeverity.INFO);
+            }
         }
 
-        public void LogKnownCritical(string message)
+        public void LogKnownError(string message)
         {
-            Log(message,StatusSeverity.ERROR);
+            // Performance wrapper. Saves unneccesary call and heap allocation.
+            if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Error))
+            {
+                Log(message, StatusSeverity.ERROR);
+            }
         }
 
-        public void LogUnknownCritical(string message)
+        public void LogUnknownError(string message)
         {
-            Log(message,StatusSeverity.UNEXPECTED_ERROR);
+            // Performance wrapper. Saves unneccesary call and heap allocation.
+           if(Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Error)){
+            Log(message, StatusSeverity.UNEXPECTED_ERROR);
+           }
         }
 
         public void LogWarning(string message)
         {
-            Log(message,StatusSeverity.WARN);
+            // Performance wrapper. Saves unneccesary call and heap allocation.
+            if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Warning))
+            {
+                Log(message, StatusSeverity.WARN);
+            }
         }
 
         /*

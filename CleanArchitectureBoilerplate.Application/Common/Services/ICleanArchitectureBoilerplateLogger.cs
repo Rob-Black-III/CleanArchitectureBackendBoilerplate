@@ -6,7 +6,7 @@ namespace CleanArchitectureBoilerplate.Application.Common.Services
         void LogInfo(string message);
         void LogDebug(string message);
         void LogWarning(string message);
-        void LogKnownCritical(string message);
-        void LogUnknownCritical(string message);
+        void LogKnownError(string message);
+        void LogUnknownError(string message);
     }
 }
