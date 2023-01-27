@@ -4,7 +4,7 @@ namespace CleanArchitectureBoilerplate.Domain.Common
     {
         int? _requestedHashCode;
 
-        public virtual Guid Id { get; protected set; }
+        public required virtual Guid Id { get; init; }
 
         public bool IsTransient()
         {
