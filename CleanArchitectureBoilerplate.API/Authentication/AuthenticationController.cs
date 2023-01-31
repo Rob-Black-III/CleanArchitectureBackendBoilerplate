@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.Application.Authentication;
+using CleanArchitectureBoilerplate.Application.Common.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
 using FluentValidation;

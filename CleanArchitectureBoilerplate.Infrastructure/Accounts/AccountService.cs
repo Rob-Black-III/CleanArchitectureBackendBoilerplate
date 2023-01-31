@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Application.Accounts;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;

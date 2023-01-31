@@ -1,7 +1,6 @@
 using System.Reflection;
-using CleanArchitectureBoilerplate.Application.Authentication;
+using CleanArchitectureBoilerplate.Application.Common.Authentication;
 using CleanArchitectureBoilerplate.Application.Common.Status;
-using CleanArchitectureBoilerplate.Application.Products;
 using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,6 @@ namespace CleanArchitectureBoilerplate.Application;
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICleanArchitectureBoilerplateStatusService, StatusService>();
 
             services.AddApplicationMapsterMappings();

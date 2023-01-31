@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Application.Accounts;
-using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
 using CleanArchitectureBoilerplate.Domain.Entities;
-using CleanArchitectureBoilerplate.Infrastructure.Persistence;
+using CleanArchitectureBoilerplate.Infrastructure.Common.Persistence;
 
 namespace CleanArchitectureBoilerplate.Infrastructure.Accounts
 {

@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.Application.Common.Interfaces.Validation;
+using CleanArchitectureBoilerplate.Application.Common.Validation;
 using FluentValidation;
 using static CleanArchitectureBoilerplate.API.Authentication.AuthenticationPresentationDTOs;
 

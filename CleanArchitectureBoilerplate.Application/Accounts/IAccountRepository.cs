@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.Application.Common.Interfaces.Persistence;
+using CleanArchitectureBoilerplate.Application.Common.Persistence;
 using CleanArchitectureBoilerplate.Domain.Entities;
 
 namespace CleanArchitectureBoilerplate.Application.Accounts

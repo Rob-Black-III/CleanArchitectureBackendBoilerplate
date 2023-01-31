@@ -1,4 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Services;
+using CleanArchitectureBoilerplate.Application.Common.Status;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureBoilerplate.API.Middleware
 {
@@ -14,7 +16,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             _next = next;
         }
         
-        public async Task Invoke(HttpContext context, ICleanArchitectureBoilerplateLogger logger)
+        public async Task Invoke(HttpContext context, [FromServices] ICleanArchitectureBoilerplateLogger logger, [FromServices] ICleanArchitectureBoilerplateStatusService statusService)
         {
             try
             {
@@ -22,13 +24,15 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             }
             catch (Exception ex)
             {
-                HandleException(context, ex, logger);
+                HandleException(context, ex, logger, statusService);
             }
         }
-        private async void HandleException(HttpContext context, Exception ex, ICleanArchitectureBoilerplateLogger logger)
+        private async void HandleException(HttpContext context, Exception ex, ICleanArchitectureBoilerplateLogger logger, ICleanArchitectureBoilerplateStatusService statusService)
         {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             logger.LogUnknownError(ex.ToString());
-            //logger.LogUnknownCritical($"HTTP Status Code: {context.Response.StatusCode} - {ex.Message}");
+            statusService.AddStatus("Unknown Error","An Internal Server Error has Occured.",StatusSeverity.UNEXPECTED_ERROR);
+            //logger.LogUnknownError($"HTTP Status Code: {context.Response.StatusCode} - {ex.Message}");
         }
     }
 }
