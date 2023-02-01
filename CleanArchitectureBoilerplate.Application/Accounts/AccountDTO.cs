@@ -4,7 +4,7 @@ namespace CleanArchitectureBoilerplate.Application.Accounts
     {
         public record AccountAdd{
             public required string Name { get; init; } = null!;
-            public Guid? AccountPlanId { get; init; }
+            public Guid? AccountPlanId { get; init; } = default!;
         }
 
         public record AccountResponse {

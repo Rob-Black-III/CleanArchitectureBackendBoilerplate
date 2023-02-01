@@ -27,9 +27,15 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 
         public override Task ExecuteAsync(ActionContext context, ObjectResult result)
         {
-            APIResponse response = new APIResponse(context.HttpContext.TraceIdentifier);
-            response.payload = result.Value;
-            response.issues = _statusService.GetAllStatus();
+            var response = new ResponseEnvelope<object>();
+            response.Payload = result.Value;
+            response.TraceID = context.HttpContext.TraceIdentifier;
+            response.Issues = _statusService.GetAllStatus();
+
+            // var response = new APIResponse();
+            // response.Payload = result.Value;
+            // response.TraceID = context.HttpContext.TraceIdentifier;
+            // response.Issues = _statusService.GetAllStatus();
 
             TypeCode typeCode = Type.GetTypeCode(result.Value.GetType());
             if (typeCode == TypeCode.Object) result.Value = response;

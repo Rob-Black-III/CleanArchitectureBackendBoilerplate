@@ -1,5 +1,7 @@
+using CleanArchitectureBoilerplate.API.APIResponseWrapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CleanArchitectureBoilerplate.API;
 
@@ -7,7 +9,7 @@ public static class RegisterDependenciesDI
 {
     public static IServiceCollection AddPresentationServices(this IServiceCollection services)
     {
-        //services.AddScoped<IActionResultExecutor<ObjectResult>, APIResponseExecutor>();
+        services.AddScoped<IActionResultExecutor<ObjectResult>, APIResponseExecutor>();
 
         // Adds all our validators. All validators must implement 'IAssemblyMarker'
         services.AddValidatorsFromAssemblyContaining<Program>();
@@ -16,6 +18,12 @@ public static class RegisterDependenciesDI
         {
             // We want to use our own error handling.
             options.SuppressModelStateInvalidFilter = true;
+        });
+
+        services.Configure<RouteHandlerOptions>(options =>
+        {
+            // We want to use our own error handling.
+            options.ThrowOnBadRequest = true;
         });
 
         return services;

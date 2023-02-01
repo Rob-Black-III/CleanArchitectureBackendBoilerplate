@@ -2,6 +2,7 @@ using CleanArchitectureBoilerplate.Application.Common.Status;
 
 namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 {
+    // DEPRECATED
     // Considered using generics "APIResponse<T>; payload T". TODO
     // Considered getting rid of this and either returning 
     // an endpoint-specific payload or a problemdetail object.
@@ -9,14 +10,16 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
     internal class APIResponse
     {
         // For logging. GUID
-        private string TraceID {get; init;} = null!;
-        public object? payload;
+        public string TraceID {get; set;} = null!;
+        public object Payload;
+        public List<Status>? Issues;
+    }
 
-        public List<Status>? issues;
-
-        public APIResponse(string traceID)
-        {
-            TraceID = traceID;
-        }
+    // https://stackoverflow.com/questions/4424030/c-system-object-vs-generics
+    internal class ResponseEnvelope<T>
+    {
+        public T Payload { set; get; }
+        public string TraceID { get; set; } = null!;
+        public List<Status>? Issues;
     }
 }

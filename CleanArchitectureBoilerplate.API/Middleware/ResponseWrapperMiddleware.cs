@@ -22,7 +22,8 @@ namespace CleanArchitectureBoilerplate.API.Middleware
         {
 
             // Before we mess up anything, set the traceID so we can figure it out later.
-            APIResponse result = new APIResponse(context.TraceIdentifier);
+            //APIResponse result = new APIResponse(context.TraceIdentifier);
+            APIResponse result = new APIResponse();
             
             var currentBody = context.Response.Body;
 
@@ -41,8 +42,8 @@ namespace CleanArchitectureBoilerplate.API.Middleware
                 var objResult = JsonConvert.DeserializeObject(readToEnd);
 
                 // On the response, fill out scoped response info (payload and issues)
-                result.issues = statusService.GetAllStatus();
-                result.payload = objResult;
+                result.Issues = statusService.GetAllStatus();
+                result.Payload = objResult;
 
                 logger.LogDebug("Writing API Response Wrapper payload...");
 

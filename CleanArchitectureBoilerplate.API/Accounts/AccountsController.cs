@@ -39,8 +39,14 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         }
 
         [HttpPost("add")]
+        // [ProducesResponseType(StatusCodes.Status200OK)]
+        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd, IValidator<AccountAdd> validator)
         {
+            if(!ModelState.IsValid){
+                return BadRequest();
+            }
+
             ValidationResult validationResult = await validator.ValidateAsync(accountAdd);
 
             if (!validationResult.IsValid)
@@ -53,7 +59,8 @@ namespace CleanArchitectureBoilerplate.API.Accounts
                 validationResult.Errors.ForEach(f => validationErrors.Add(f.ErrorMessage));
                 _statusService.AddStatus(StatusType.VALIDATION_ISSUE, validationErrors, StatusSeverity.ERROR);
 
-                return BadRequest(new JObject());
+                //return BadRequest(new JObject());
+                return new EmptyResult();
             }
 
             AccountResponse p = await _accountService.AddAccount(accountAdd);

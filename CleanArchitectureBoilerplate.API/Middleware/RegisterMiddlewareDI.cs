@@ -14,7 +14,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             builder.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
             // API Response wrapper. Contains meta-info and 'payload' endpoint-specific field.
-            builder.UseMiddleware<ResponseWrapperMiddleware>();
+            //builder.UseMiddleware<ResponseWrapperMiddleware>();
 
             return builder;
         }
