@@ -47,8 +47,8 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         // [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd, IValidator<AccountAdd> validator)
         {
-        // TODO move all the model binding validation errors and fluent validation errors to a middleware or actionfilter
-        // https://stackoverflow.com/questions/42582758/asp-net-core-middleware-vs-filters
+        // TODO move all the model binding validation errors and fluent validation errors to a middleware or actionfilter or ControllerBase extension method
+        // **** https://stackoverflow.com/questions/42582758/asp-net-core-middleware-vs-filters ****
         // OR 
         // https://stackoverflow.com/questions/59922693/fluentvalidation-use-custom-iactionfilter
         // https://medium.com/@sergiobarriel/how-to-automatically-validate-a-model-with-mvc-filter-and-fluent-validation-package-ae51098bcf5b
@@ -59,6 +59,9 @@ namespace CleanArchitectureBoilerplate.API.Accounts
 
         // Fuck all this garbage and gonna do this
         // https://stackoverflow.com/questions/74246450/auto-api-validation-with-fluentvalidation
+
+        // Result object stuff
+        // https://enterprisecraftsmanship.com/posts/error-handling-exception-or-result/
             if(!ModelState.IsValid){
                 _statusService.AddStatus(StatusType.VALIDATION_ISSUE, "Bad Request. Model Binding Failed.", StatusSeverity.ERROR);
                 return new EmptyResult();
