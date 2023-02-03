@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 
-/*
-DEPRECATED
-TODO NOT CURRENTLY WORKING. RETURNS {}. WOULD LIKE TO USE THIS INSTEAD OF
-RESPONSEWRAPPERMIDDLEWARE.CS IN API/MIDDLEWARE/
-https://learn.microsoft.com/en-us/answers/questions/469027/proper-way-of-wrapping-the-response-along-with-exc
-*/
+
+// https://learn.microsoft.com/en-us/answers/questions/469027/proper-way-of-wrapping-the-response-along-with-exc
+// Does not work with primitive payload types.
 namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
 {
     internal class APIResponseExecutor : ObjectResultExecutor
@@ -37,7 +34,8 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
             // response.TraceID = context.HttpContext.TraceIdentifier;
             // response.Issues = _statusService.GetAllStatus();
 
-            TypeCode typeCode = Type.GetTypeCode(result.Value.GetType());
+            // Does not work with primitive payload types.
+            TypeCode? typeCode = Type.GetTypeCode(result.Value.GetType());
             if (typeCode == TypeCode.Object) result.Value = response;
 
             return base.ExecuteAsync(context, result);

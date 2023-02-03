@@ -25,6 +25,15 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Accounts
             _mapper = mapper;
         }
 
+        // The application service layer is generally used for coordination rather than implementation. 
+        // Here we just want to do * only * the neccesary steps to dispatch to our infrastructure layer
+        // TODO check for mapping issues here?
+
+        // For Error Handling
+        // "Business" Errors should be checked and handled in the application / dispatch / coordination layer (interchangable names)
+        // "Technology" Errors should be handled in the "closest" layer to the problem 
+        //      (db connection errors in infrastructure, http issues in presentation, mapping issues in application layer)
+        // https://levelup.gitconnected.com/error-handling-in-clean-architecture-9ff159a25d4a
         public async Task<AccountResponse> AddAccount(AccountAdd accountAdd)
         {
             Account a = _mapper.Map<Account>(accountAdd);

@@ -17,13 +17,15 @@ public static class RegisterDependenciesDI
         services.Configure<ApiBehaviorOptions>(options =>
         {
             // We want to use our own error handling.
+            // Suppresses automatic 400 BadRequest provided via the [ApiController]
+            // https://stackoverflow.com/questions/59922693/fluentvalidation-use-custom-iactionfilter
             options.SuppressModelStateInvalidFilter = true;
         });
 
         services.Configure<RouteHandlerOptions>(options =>
         {
             // We want to use our own error handling.
-            options.ThrowOnBadRequest = true;
+            //options.ThrowOnBadRequest = true;
         });
 
         return services;

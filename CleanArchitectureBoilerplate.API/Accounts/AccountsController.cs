@@ -11,14 +11,18 @@ namespace CleanArchitectureBoilerplate.API.Accounts
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccountsController : ControllerBase
+    // Controller base gives us "OK() and BadRequest, 
+    // wrappers around OkObjectResult and BadRequestResult, etc
+    public class AccountsController : ControllerBase 
     {
         private readonly IAccountService _accountService;
         private readonly ICleanArchitectureBoilerplateStatusService _statusService;
         private readonly ICleanArchitectureBoilerplateLogger _logger;
         //private readonly IMapper _mapper;
 
-        public AccountsController(IAccountService accountService, ICleanArchitectureBoilerplateStatusService statusService, ICleanArchitectureBoilerplateLogger logger)
+        public AccountsController(IAccountService accountService,
+            ICleanArchitectureBoilerplateStatusService statusService,
+            ICleanArchitectureBoilerplateLogger logger)
         {
             _accountService = accountService;
             _statusService = statusService;
@@ -43,8 +47,21 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         // [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd, IValidator<AccountAdd> validator)
         {
+        // TODO move all the model binding validation errors and fluent validation errors to a middleware or actionfilter
+        // https://stackoverflow.com/questions/42582758/asp-net-core-middleware-vs-filters
+        // OR 
+        // https://stackoverflow.com/questions/59922693/fluentvalidation-use-custom-iactionfilter
+        // https://medium.com/@sergiobarriel/how-to-automatically-validate-a-model-with-mvc-filter-and-fluent-validation-package-ae51098bcf5b
+        // https://stackoverflow.com/questions/40932102/fluentvalidation-and-actionfilterattribute-update-model-before-it-is-validated
+
+        // older naive 
+        // https://stackoverflow.com/questions/13684354/validating-a-view-model-after-custom-model-binding
+
+        // Fuck all this garbage and gonna do this
+        // https://stackoverflow.com/questions/74246450/auto-api-validation-with-fluentvalidation
             if(!ModelState.IsValid){
-                return BadRequest();
+                _statusService.AddStatus(StatusType.VALIDATION_ISSUE, "Bad Request. Model Binding Failed.", StatusSeverity.ERROR);
+                return new EmptyResult();
             }
 
             ValidationResult validationResult = await validator.ValidateAsync(accountAdd);
