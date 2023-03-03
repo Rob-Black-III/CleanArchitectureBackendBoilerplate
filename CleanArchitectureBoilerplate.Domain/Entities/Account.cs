@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.Domain.Common;
+using CleanArchitectureBoilerplate.Domain.SeedWork;
 
 namespace CleanArchitectureBoilerplate.Domain.Entities
 {

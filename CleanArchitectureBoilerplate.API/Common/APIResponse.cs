@@ -1,6 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Status;
 
-namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
+namespace CleanArchitectureBoilerplate.API.Common
 {
     // DEPRECATED
     // Considered using generics "APIResponse<T>; payload T". TODO
@@ -18,8 +18,8 @@ namespace CleanArchitectureBoilerplate.API.APIResponseWrapper
     // https://stackoverflow.com/questions/4424030/c-system-object-vs-generics
     internal class ResponseEnvelope<T>
     {
-        public T Payload { set; get; }
+        public T? Payload { set; get; }
         public string TraceID { get; set; } = null!;
-        public List<Status>? Issues;
+        public string? ErrorMessage { get; set; }
     }
 }

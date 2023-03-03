@@ -1,4 +1,4 @@
-namespace CleanArchitectureBoilerplate.Domain.Common
+namespace CleanArchitectureBoilerplate.Domain.SeedWork
 {
     // Depending on Audit implementation (rollback or not).
     // May or may not be used.

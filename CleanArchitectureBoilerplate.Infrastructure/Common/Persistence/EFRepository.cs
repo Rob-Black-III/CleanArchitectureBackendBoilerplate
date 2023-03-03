@@ -1,7 +1,8 @@
 
 using System.Linq.Expressions;
 using CleanArchitectureBoilerplate.Application.Common.Persistence;
-using CleanArchitectureBoilerplate.Domain.Common;
+using CleanArchitectureBoilerplate.Application.Common.Validation;
+using CleanArchitectureBoilerplate.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureBoilerplate.Infrastructure.Common.Persistence
@@ -23,51 +24,135 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Persistence
             _dbContext = dbContext;
         }
 
-        public virtual async Task<T> GetByIdAsync(Guid id)
+        // public async Task<IReadOnlyList<T>> ListAllAsync()
+        // {
+        //     return await _dbContext.Set<T>().ToListAsync();
+        // }
+
+        public async Task<Result<T>> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
-            //return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            try
+            {
+                if(id == default)
+                {
+                    return Error.ValidationError("'Id' must not be null or empty.");
+                }
+
+                T? foundEntity = await _dbContext.Set<T>().FindAsync(id);
+                if (foundEntity is not null)
+                {
+                    return foundEntity;
+                }
+                else
+                {
+                    return Error.NotFoundError("No entities exist for the provided id.");
+                }
+            }
+            catch
+            {
+                return Error.UnknownError($"An unknown error occured while checking if any {typeof(T)}'s satisfy the provided condition.");
+
+            }
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        public async Task<Result<bool>>ExistsAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbContext.Set<T>().AnyAsync(predicate);
+            // Since true or false are both valid, 
+            // we want to only catch any other random stuff (network errors, sql, etc.)
+            try
+            {
+                bool anyExist = await _dbContext.Set<T>().AnyAsync(predicate);
+                return anyExist;
+            }
+            catch
+            {
+                return Error.UnknownError($"An unknown error occured while checking if any {typeof(T)}'s satisfy the provided condition.");
+            }
+            
+
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
+        // Task<Result<IQueryable<T?>>> Where(Expression<Func<T, bool>> predicate)
+        // {
+        //     try
+        //     {
+        //         return _dbContext.Set<T>().Where(predicate);
+        //     }
+        //     catch(ArgumentNullException e)
+        //     {
+        //         return Error.UnknownError("Provided predicate was null.");
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return Error.UnknownError($"An unknown error occured while checking if any {typeof(T)}'s satisfy the provided 'where' condition.");
+
+        //     }
+            
+        // }
+
+        public async Task<Result<T>> AddAsync(T entity)
         {
-            return _dbContext.Set<T>().Where(predicate);
+            try
+            {
+                await _dbContext.Set<T>().AddAsync(entity);
+                await _dbContext.SaveChangesAsync();
+
+                // Id will be automagically filled in.
+                return entity;
+            }
+            catch
+            {
+                return Error.UnknownError($"An unknown error occured while adding {typeof(T)} to the database.");
+            }
         }
 
-        public async Task<IReadOnlyList<T>> ListAllAsync()
+        public async Task<Result<T>> UpdateAsync(T entity)
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            try
+            {
+                _dbContext.Set<T>().Update(entity);
+                await _dbContext.SaveChangesAsync();
+                return entity;
+            }
+            catch
+            {
+                return Error.UnknownError($"An unknown error occured while updating {typeof(T)} in the database.");
+            }
+
         }
 
-        public async virtual Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)
+        public async Task<Result<T>> DeleteAsync(T entity)
         {
-            return await _dbContext.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+            try
+            {
+                _dbContext.Set<T>().Remove(entity);
+                await _dbContext.SaveChangesAsync();
+                return entity; // Work around not wanting to return bool void.
+            }
+            catch
+            {
+                return Error.UnknownError($"An unknown error occured while deleting {typeof(T)} from the database.");
+            }
+
         }
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<Result<IReadOnlyList<T>>> GetPagedReponseAsync(int page, int size)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                return await _dbContext.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+            }
+            catch(ArgumentNullException e)
+            {
+                return Error.ValidationError($"Parameters 'page' or 'size' returned null.");
 
-            // Id will be automagically filled in.
-            return entity;
-        }
+            }
+            catch (Exception e)
+            {
+                return Error.UnknownError($"An unknown error occured while deleting {typeof(T)} from the database.");
 
-        public async Task UpdateAsync(T entity)
-        {
-            _dbContext.Set<T>().Update(entity);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(T entity)
-        {
-            _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            }
+            
         }
     }
 }

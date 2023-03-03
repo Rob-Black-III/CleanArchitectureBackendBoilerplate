@@ -31,7 +31,7 @@ namespace CleanArchitectureBoilerplate.API.Middleware
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             logger.LogUnknownError(ex.ToString());
-            statusService.AddStatus("Unknown Error","An Internal Server Error has Occured.",StatusSeverity.UNEXPECTED_ERROR);
+            //statusService.AddStatus("Unknown Error","An Internal Server Error has Occured.",StatusSeverity.UNEXPECTED_ERROR);
             //logger.LogUnknownError($"HTTP Status Code: {context.Response.StatusCode} - {ex.Message}");
         }
     }

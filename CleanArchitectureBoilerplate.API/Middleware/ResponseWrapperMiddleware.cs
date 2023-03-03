@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.API.APIResponseWrapper;
+using CleanArchitectureBoilerplate.API.Common;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
 using Newtonsoft.Json;

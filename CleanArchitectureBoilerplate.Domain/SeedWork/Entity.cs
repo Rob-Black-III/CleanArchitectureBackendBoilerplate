@@ -1,4 +1,4 @@
-namespace CleanArchitectureBoilerplate.Domain.Common
+namespace CleanArchitectureBoilerplate.Domain.SeedWork
 {
     public abstract class Entity
     {

@@ -1,9 +1,12 @@
+using CleanArchitectureBoilerplate.API.Common;
 using CleanArchitectureBoilerplate.Application.Accounts;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Status;
+using CleanArchitectureBoilerplate.Application.Common.Validation;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json.Linq;
 using static CleanArchitectureBoilerplate.Application.Accounts.AccountDTO;
 
@@ -13,7 +16,7 @@ namespace CleanArchitectureBoilerplate.API.Accounts
     [Route("[controller]")]
     // Controller base gives us "OK() and BadRequest, 
     // wrappers around OkObjectResult and BadRequestResult, etc
-    public class AccountsController : ControllerBase 
+    public class AccountsController : CleanArchitectureBoilerplateController 
     {
         private readonly IAccountService _accountService;
         private readonly ICleanArchitectureBoilerplateStatusService _statusService;
@@ -34,37 +37,23 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         public async Task<IActionResult> GetById(Guid id)
         {
             // Get service-layer "ProductResult" (to not expose Domain entities)
-            AccountResponse productResult = await _accountService.GetAccountById(id);
+            // if(id == default){
+            //     return FromError(Error.ValidationError("'Id' must not be null."));
+            // }
 
-            // Map our service-layer "ProductResult" DTO to our presentation "ProductResponse" DTO
-
-            // Return our "ProductResponse"
-            return Ok(productResult);
+            Result<AccountResponse> productResult = await _accountService.GetAccountById(id);
+            return FromResult(productResult);
         }
 
         [HttpPost("add")]
-        // [ProducesResponseType(StatusCodes.Status200OK)]
-        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd, IValidator<AccountAdd> validator)
         {
-        // TODO move all the model binding validation errors and fluent validation errors to a middleware or actionfilter or ControllerBase extension method
-        // **** https://stackoverflow.com/questions/42582758/asp-net-core-middleware-vs-filters ****
-        // OR 
-        // https://stackoverflow.com/questions/59922693/fluentvalidation-use-custom-iactionfilter
-        // https://medium.com/@sergiobarriel/how-to-automatically-validate-a-model-with-mvc-filter-and-fluent-validation-package-ae51098bcf5b
-        // https://stackoverflow.com/questions/40932102/fluentvalidation-and-actionfilterattribute-update-model-before-it-is-validated
-
-        // older naive 
-        // https://stackoverflow.com/questions/13684354/validating-a-view-model-after-custom-model-binding
-
-        // Fuck all this garbage and gonna do this
-        // https://stackoverflow.com/questions/74246450/auto-api-validation-with-fluentvalidation
-
-        // Result object stuff
-        // https://enterprisecraftsmanship.com/posts/error-handling-exception-or-result/
             if(!ModelState.IsValid){
-                _statusService.AddStatus(StatusType.VALIDATION_ISSUE, "Bad Request. Model Binding Failed.", StatusSeverity.ERROR);
-                return new EmptyResult();
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                //return FromError(Error.ValidationError(String.Join(Environment.NewLine,allErrors)));
+                return FromError(Error.ValidationError("Model Binding Failed. Check Your Request Format."));
             }
 
             ValidationResult validationResult = await validator.ValidateAsync(accountAdd);
@@ -77,15 +66,11 @@ namespace CleanArchitectureBoilerplate.API.Accounts
                 // Send validation errors back to the frontend for toast and such.
                 List<string> validationErrors = new List<string>();
                 validationResult.Errors.ForEach(f => validationErrors.Add(f.ErrorMessage));
-                _statusService.AddStatus(StatusType.VALIDATION_ISSUE, validationErrors, StatusSeverity.ERROR);
-
-                //return BadRequest(new JObject());
-                return new EmptyResult();
+                return FromError(Error.ValidationError(String.Join(Environment.NewLine, validationErrors)));
             }
 
-            AccountResponse p = await _accountService.AddAccount(accountAdd);
-
-            return Ok(p);
+            Result<AccountResponse> addAccountResult = await _accountService.AddAccount(accountAdd);
+            return FromResult(addAccountResult);
         }
     }
 }
