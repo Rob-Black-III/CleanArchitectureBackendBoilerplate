@@ -1,3 +1,5 @@
+using CleanArchitectureBoilerplate.API.Common.ResponseEnvelope;
+
 namespace CleanArchitectureBoilerplate.API.Middleware
 {
     public static class RegisterMiddleware

@@ -1,6 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Status;
 
-namespace CleanArchitectureBoilerplate.API.Common
+namespace CleanArchitectureBoilerplate.API.Common.ResponseEnvelope
 {
     // DEPRECATED
     // Considered using generics "APIResponse<T>; payload T". TODO

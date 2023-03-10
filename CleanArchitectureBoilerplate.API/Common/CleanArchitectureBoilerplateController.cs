@@ -1,8 +1,10 @@
+using CleanArchitectureBoilerplate.API.Common.Validation;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureBoilerplate.API.Common
 {
+    [ValidationModelBindingActionFilter]
     public class CleanArchitectureBoilerplateController : ControllerBase
     {
 
@@ -36,7 +38,8 @@ namespace CleanArchitectureBoilerplate.API.Common
         // Maps our Domain error types to our HTTP error types as an abstraction layer.
         private IActionResult ErrorToHTTPStatusIActionResult(Error e) => e.ErrorType switch
         {
-            ErrorType.Validation => base.BadRequest(e),
+            // Can be found in the CustomIActionResults.cs file
+            ErrorType.Validation => new FromValidationErrorResult(e),
             ErrorType.NotFound => base.NotFound(e),
             ErrorType.Conflict => base.Conflict(e),
 

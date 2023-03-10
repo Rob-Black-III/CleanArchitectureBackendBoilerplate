@@ -1,7 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using FluentValidation;
 using static CleanArchitectureBoilerplate.Application.Accounts.AccountDTO;
-using CleanArchitectureBoilerplate.API.Common.GenericFluentValidators;
 
 namespace CleanArchitectureBoilerplate.API.Accounts
 {

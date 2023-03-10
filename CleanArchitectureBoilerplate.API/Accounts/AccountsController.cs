@@ -48,26 +48,26 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         [HttpPost("add")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd, IValidator<AccountAdd> validator)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd)
         {
-            if(!ModelState.IsValid){
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                //return FromError(Error.ValidationError(String.Join(Environment.NewLine,allErrors)));
-                return FromError(Error.ValidationError("Model Binding Failed. Check Your Request Format."));
-            }
+            // if(!ModelState.IsValid){
+            //     IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            //     //return FromError(Error.ValidationError(String.Join(Environment.NewLine,allErrors)));
+            //     return FromError(Error.ValidationError("Model Binding Failed. Check Your Request Format."));
+            // }
 
-            ValidationResult validationResult = await validator.ValidateAsync(accountAdd);
+            // ValidationResult validationResult = await validator.ValidateAsync(accountAdd);
 
-            if (!validationResult.IsValid)
-            {
-                // Log the validation errors
-                _logger.LogInfo(String.Join(" ", validationResult.Errors));
+            // if (!validationResult.IsValid)
+            // {
+            //     // Log the validation errors
+            //     _logger.LogInfo(String.Join(" ", validationResult.Errors));
 
-                // Send validation errors back to the frontend for toast and such.
-                List<string> validationErrors = new List<string>();
-                validationResult.Errors.ForEach(f => validationErrors.Add(f.ErrorMessage));
-                return FromError(Error.ValidationError(String.Join(Environment.NewLine, validationErrors)));
-            }
+            //     // Send validation errors back to the frontend for toast and such.
+            //     List<string> validationErrors = new List<string>();
+            //     validationResult.Errors.ForEach(f => validationErrors.Add(f.ErrorMessage));
+            //     return FromError(Error.ValidationError(String.Join(Environment.NewLine, validationErrors)));
+            // }
 
             Result<AccountResponse> addAccountResult = await _accountService.AddAccount(accountAdd);
             return FromResult(addAccountResult);

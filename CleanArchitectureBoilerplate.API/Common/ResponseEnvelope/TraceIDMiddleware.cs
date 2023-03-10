@@ -1,6 +1,6 @@
 using CleanArchitectureBoilerplate.Application.Common.Services;
 
-namespace CleanArchitectureBoilerplate.API.Middleware
+namespace CleanArchitectureBoilerplate.API.Common.ResponseEnvelope
 {
     public class TraceIDMiddleware
     {

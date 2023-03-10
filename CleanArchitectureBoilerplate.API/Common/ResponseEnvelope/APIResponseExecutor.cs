@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 // https://learn.microsoft.com/en-us/answers/questions/469027/proper-way-of-wrapping-the-response-along-with-exc
 // Does not work with primitive payload types.
-namespace CleanArchitectureBoilerplate.API.Common
+namespace CleanArchitectureBoilerplate.API.Common.ResponseEnvelope
 {
     internal class APIResponseExecutor : ObjectResultExecutor
     {
