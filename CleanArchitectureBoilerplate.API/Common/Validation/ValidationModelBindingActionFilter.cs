@@ -1,63 +1,74 @@
-using System.Collections;
+using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Options;
 
 namespace CleanArchitectureBoilerplate.API.Common.Validation
 {
     public class ValidationModelBindingActionFilter : ActionFilterAttribute
     {
+        private readonly ValidationSettings _validationSettings;
+        private readonly ICleanArchitectureBoilerplateLogger _logger;
+        public ValidationModelBindingActionFilter(ICleanArchitectureBoilerplateLogger logger, IOptions<ValidationSettings> validationOptions)
+        {
+            _logger = logger;
+            _validationSettings = validationOptions.Value;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            // ModelState errors are joined with fluentvaliation errors automatically via automatic fluentvalidation.
+            if(!context.ModelState.IsValid)
+            {
+                // Concatenate all error messages.  
+                string unsanitizedVerboseValidationErrors = string.Join("; ", context.ModelState.Values
+                                            .SelectMany(x => x.Errors)
+                                            .Select(x => x.ErrorMessage));
+
+                // Validation Error Logging
+                if(_validationSettings.LogUnsanitizedValidationMessages == true)
+                {       
+                    _logger.LogInfo("Validation failed. " + unsanitizedVerboseValidationErrors);
+                }
+                else
+                {
+                    _logger.LogInfo("Validation failed. Details omitted due to appsettings.");
+                }
+
+                // Validation Error Client Response
+                if(_validationSettings.ShowUnsanitizedValidationMessages == true)
+                {
+
+                    // Return the unsanitized error messages. For use in testing and development.
+                    context.Result = new FromValidationErrorResult(Error.ValidationError("Validation failed. " + unsanitizedVerboseValidationErrors));
+                }
+                else
+                {
+                    // Return a generic error message to avoid leaking unsanitized information.
+                    context.Result = new FromValidationErrorResult(Error.ValidationError("Validation failed. Check Your Request Format."));
+                }
+            }
+            else
+            {
+                _logger.LogInfo("Validation and Model Binding succesful.");
+            }
+
+            base.OnActionExecuting(context);
+        }
+
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override void OnResultExecuting(ResultExecutingContext context)
         {
-            if(!context.ModelState.IsValid)
-            {
-                // string messages = string.Join("; ", context.ModelState.Values
-                //                         .SelectMany(x => x.Errors)
-                //                         .Select(x => x.ErrorMessage));
-                // context.Result = new FromErrorResult(Error.ValidationError(messages));
-
-                // Don't want to expose underlying architecture information in error.
-                context.Result = new FromValidationErrorResult(Error.ValidationError("Model Binding Failed. Check Your Request Format."));
-            };
-            // IValidator? validator = (IValidator)(context.ActionArguments.First(arg => arg.Value.GetType() == typeof(IValidator))).Value;
-            // if (validator is not null)
-            // {
-            //     // Get the thing to validate
-            //     validator.ValidateAsync((IValidationContext)(context.ActionArguments.First(arg => arg.Value.GetType() != typeof(IValidator))).Value);
-            // }
-
-            base.OnActionExecuting(context);
+            base.OnResultExecuting(context);
         }
 
-        // private async IActionResult? ModelBindAndValidate(Object entityToValidate, IValidator<T> validator) where T : object
-        // {
-        //     if (!ModelState.IsValid)
-        //     {
-
-        //     }
-
-        //     ValidationResult validationResult = await validator.ValidateAsync(entityToValidate);
-
-        //     if (!validationResult.IsValid)
-        //     {
-        //         // Log the validation errors
-        //         //_logger.LogInfo(String.Join(" ", validationResult.Errors));
-
-        //         // Send validation errors back to the frontend for toast and such.
-        //         List<string> validationErrors = new List<string>();
-        //         validationResult.Errors.ForEach(f => validationErrors.Add(f.ErrorMessage));
-        //         return FromError(Error.ValidationError(String.Join(Environment.NewLine, validationErrors)));
-        //     }
-        //     else
-        //     {
-        //         return null;
-        //     }
-        // }
+        public override void OnResultExecuted(ResultExecutedContext context)
+        {
+            base.OnResultExecuted(context);
+        }
     }
 }

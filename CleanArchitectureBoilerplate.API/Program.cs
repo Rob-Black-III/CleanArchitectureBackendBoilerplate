@@ -8,9 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
     // Add services to the container. Also for DI
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration); // This is why we have a layer reference to infrastructure.
-    builder.Services.AddPresentationServices();
+    builder.Services.AddPresentationServices(builder.Configuration);
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options =>
+    {
+        options.ModelValidatorProviders.Clear(); // Disables the handler, but does not disable validation.
+    });
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

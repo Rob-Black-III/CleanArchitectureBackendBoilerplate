@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureBoilerplate.API.Common
 {
-    [ValidationModelBindingActionFilter]
+    //[ValidationModelBindingActionFilter]
+    [ServiceFilter(typeof(ValidationModelBindingActionFilter))]
     public class CleanArchitectureBoilerplateController : ControllerBase
     {
 
