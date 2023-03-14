@@ -16,7 +16,7 @@ namespace CleanArchitectureBoilerplate.API.Accounts
                 // https://github.com/FluentValidation/FluentValidation/issues/1101
                 // Don't use notempty because we want null, just not Guid.Empty
                 // 00000000-0000-0000-0000-000000000000
-                RuleFor(x => x.AccountPlanId).NotEqual(Guid.Empty).WithMessage("Guid cannot be empty or default.");
+                RuleFor(x => x.AccountPlanId).NotEqual(Guid.Empty).NotNull().WithMessage("Guid cannot be empty or default.");
             }
         }
     }

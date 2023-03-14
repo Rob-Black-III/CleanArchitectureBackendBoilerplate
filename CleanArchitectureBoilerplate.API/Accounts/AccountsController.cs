@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using CleanArchitectureBoilerplate.API.Common;
 using CleanArchitectureBoilerplate.Application.Accounts;
 using CleanArchitectureBoilerplate.Application.Common.Services;
@@ -34,8 +35,15 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById([BindRequired] Guid id)
         {
+            // There is a [FromQueryRequired] which we don't want, since it throws a 404 (which we override)
+            // https://stackoverflow.com/questions/7187576/validation-of-guid
+            // https://stackoverflow.com/questions/50910093/asp-net-core-require-non-nullable-types
+            // https://stackoverflow.com/questions/43688968/what-does-it-mean-for-a-property-to-be-required-and-nullable
+
+            // https://stackoverflow.com/questions/52977418/validate-query-parameters-without-using-a-model-in-netcore-api
+
             // Get service-layer "ProductResult" (to not expose Domain entities)
             // if(id == default){
             //     return FromError(Error.ValidationError("'Id' must not be null."));
