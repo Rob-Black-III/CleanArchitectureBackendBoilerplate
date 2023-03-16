@@ -1,7 +1,6 @@
 using System.Net;
 using CleanArchitectureBoilerplate.API.Common.Validation;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
-using CleanArchitectureBoilerplate.Domain.SeedWork;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 

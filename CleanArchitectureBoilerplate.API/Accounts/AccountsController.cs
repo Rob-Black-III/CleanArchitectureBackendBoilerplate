@@ -17,7 +17,6 @@ namespace CleanArchitectureBoilerplate.API.Accounts
     {
         private readonly IAccountService _accountService;
         private readonly ICleanArchitectureBoilerplateLogger _logger;
-        //private readonly IMapper _mapper;
 
         public AccountsController(IAccountService accountService,
             ICleanArchitectureBoilerplateLogger logger)
@@ -27,16 +26,18 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([BindRequired] Guid id)
         {
-            throw new Exception("test");
             Result<AccountResponse> productResult = await _accountService.GetAccountById(id);
             return FromResult(productResult, HttpStatusCode.OK);
         }
 
         [HttpPost("add")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountAdd accountAdd)
         {
             Result<AccountResponse> addAccountResult = await _accountService.AddAccount(accountAdd);
