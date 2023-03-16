@@ -1,33 +1,31 @@
+using System.Net;
 using CleanArchitectureBoilerplate.API.Common.Validation;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
+using CleanArchitectureBoilerplate.Domain.SeedWork;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CleanArchitectureBoilerplate.API.Common
 {
-    //[ValidationModelBindingActionFilter]
     [ServiceFilter(typeof(ValidationModelBindingActionFilter))]
     [BindingBehavior(BindingBehavior.Optional)]
     public class CleanArchitectureBoilerplateController : ControllerBase
     {
 
-        // public override IActionResult Ok(Object o, string? successMessage)
-        // {
-        //     if(successMessage is null)
-        //     {
-        //         return base.Ok(o);
-        //     }
-        //     else if(successMessage is not null)
-        //     {
-        //         var envelope = new {o, successMessage};
-        //         return base.Ok(envelope);
-        //     }
-        // }
-
         protected IActionResult FromResult<T>(Result<T> result)
         {
+            // By default, on success, return
             return result.Match(
-                (successPayload) => base.Ok(successPayload),
+                (successPayload) => SuccessToHTTPStatusIActionResult<T>(successPayload),
+                (error) => ErrorToHTTPStatusIActionResult(error)
+                );
+        }
+
+         protected IActionResult FromResult<T>(Result<T> result, HttpStatusCode onSuccessStatusCode)
+        {
+            // By default, on success, return
+            return result.Match(
+                (successPayload) => SuccessToHTTPStatusIActionResult<T>(successPayload, onSuccessStatusCode),
                 (error) => ErrorToHTTPStatusIActionResult(error)
                 );
         }
@@ -36,6 +34,18 @@ namespace CleanArchitectureBoilerplate.API.Common
         protected IActionResult FromError(Error error)
         {
             return ErrorToHTTPStatusIActionResult(error);
+        }
+
+        // Shorthand to return 200 on all success request, unless otherwise specfied.
+        private IActionResult SuccessToHTTPStatusIActionResult<T>(T success)
+        {
+            return new FromSuccessResultActionResult<T>(success, HttpStatusCode.OK);
+        }
+
+        // Return a payload with any status code.
+        private IActionResult SuccessToHTTPStatusIActionResult<T>(T success, HttpStatusCode statusCode)
+        {
+            return new FromSuccessResultActionResult<T>(success, statusCode);
         }
 
         // Maps our Domain error types to our HTTP error types as an abstraction layer.

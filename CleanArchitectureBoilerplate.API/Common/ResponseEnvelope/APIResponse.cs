@@ -1,5 +1,3 @@
-using CleanArchitectureBoilerplate.Application.Common.Status;
-
 namespace CleanArchitectureBoilerplate.API.Common.ResponseEnvelope
 {
     // DEPRECATED
@@ -12,7 +10,6 @@ namespace CleanArchitectureBoilerplate.API.Common.ResponseEnvelope
         // For logging. GUID
         public string TraceID {get; set;} = null!;
         public object Payload;
-        public List<Status>? Issues;
     }
 
     // https://stackoverflow.com/questions/4424030/c-system-object-vs-generics

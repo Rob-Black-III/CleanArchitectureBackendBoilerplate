@@ -20,7 +20,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure
             // Services - Domain-Agnostic Functionality (Boilerplate)
             services.AddSingleton<IJwtTokenGenerator,JwtTokenGenerator>();
             services.AddSingleton<IDateTimeProvider,DateTimeProvider>();
-            services.AddScoped<ICleanArchitectureBoilerplateLogger,SerilogLogger>();
+            services.AddSingleton<ICleanArchitectureBoilerplateLogger,SerilogLogger>();
 
             // Services - Domain-Specific Functionality
             services.AddScoped<IAccountService, AccountService>();

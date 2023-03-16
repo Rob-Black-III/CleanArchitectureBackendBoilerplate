@@ -1,7 +1,5 @@
-
+using CleanArchitectureBoilerplate.Application.Common;
 using CleanArchitectureBoilerplate.Application.Common.Services;
-using CleanArchitectureBoilerplate.Application.Common.Status;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Exceptions;
 
@@ -9,13 +7,11 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
 {
     internal class SerilogLogger : ICleanArchitectureBoilerplateLogger
     {
-        private readonly ICleanArchitectureBoilerplateStatusService _statusService;
 
         private string? traceID = default;
 
-        public SerilogLogger(ICleanArchitectureBoilerplateStatusService statusService)
+        public SerilogLogger()
         {
-            _statusService = statusService;
 
             Serilog.Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()

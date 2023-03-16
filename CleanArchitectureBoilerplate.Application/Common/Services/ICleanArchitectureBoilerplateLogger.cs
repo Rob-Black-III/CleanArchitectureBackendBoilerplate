@@ -1,5 +1,6 @@
 namespace CleanArchitectureBoilerplate.Application.Common.Services
 {
+
     public interface ICleanArchitectureBoilerplateLogger
     {
         void SetTraceID(string traceId);

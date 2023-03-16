@@ -1,5 +1,7 @@
+using System.Net;
 using CleanArchitectureBoilerplate.Application.Common.Services;
-using CleanArchitectureBoilerplate.Application.Common.Status;
+using CleanArchitectureBoilerplate.Application.Common.Validation;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureBoilerplate.API.Middleware
@@ -8,15 +10,19 @@ namespace CleanArchitectureBoilerplate.API.Middleware
     // Exceptions should be caught as Errors and logged in lower layers.
     // Exceptions should never be thrown.
     // This middleware exists as a 'catch-all'.
-    public class GlobalExceptionHandlerMiddleware
+    public class ErrorHandlerMiddleware
     {
+        private const string GENERIC_UNKNOWN_ERROR_MESSAGE = "An unhandled exception occurred and was caught by the middleware.";
         private readonly RequestDelegate _next;
-        public GlobalExceptionHandlerMiddleware(RequestDelegate next)
+        private readonly ICleanArchitectureBoilerplateLogger _logger;
+
+        public ErrorHandlerMiddleware(RequestDelegate next, [FromServices] ICleanArchitectureBoilerplateLogger logger)
         {
             _next = next;
+            _logger = logger;
         }
-        
-        public async Task Invoke(HttpContext context, [FromServices] ICleanArchitectureBoilerplateLogger logger, [FromServices] ICleanArchitectureBoilerplateStatusService statusService)
+
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {
@@ -24,15 +30,29 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             }
             catch (Exception ex)
             {
-                HandleException(context, ex, logger, statusService);
+                _logger.LogUnknownError(GENERIC_UNKNOWN_ERROR_MESSAGE + " - " + ex.Message);
+
+                var exceptionHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
+
+                if (exceptionHandlerFeature != null)
+                {
+                    // Specific error is logged here
+                    //error = new Error(ErrorType.Unknown, exceptionHandlerFeature.Error, exceptionHandlerFeature.Error.Message);
+                }
+
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                // Only creating an error here (and not just using a message) because the APIResponseExecutor maps Error Object Results to the appropriate fields.
+                var result = new ObjectResult(Error.UnknownError())
+                {
+                    StatusCode = (int)HttpStatusCode.InternalServerError
+                };
+
+                await result.ExecuteResultAsync(new ActionContext
+                {
+                    HttpContext = context
+                });
             }
-        }
-        private async void HandleException(HttpContext context, Exception ex, ICleanArchitectureBoilerplateLogger logger, ICleanArchitectureBoilerplateStatusService statusService)
-        {
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            logger.LogUnknownError(ex.ToString());
-            //statusService.AddStatus("Unknown Error","An Internal Server Error has Occured.",StatusSeverity.UNEXPECTED_ERROR);
-            //logger.LogUnknownError($"HTTP Status Code: {context.Response.StatusCode} - {ex.Message}");
         }
     }
 }

@@ -1,9 +1,7 @@
-using CleanArchitectureBoilerplate.Application.Common.Status;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
-
 
 // https://learn.microsoft.com/en-us/answers/questions/469027/proper-way-of-wrapping-the-response-along-with-exc
 // Does not work with primitive payload types.
@@ -11,16 +9,13 @@ namespace CleanArchitectureBoilerplate.API.Common.ResponseEnvelope
 {
     internal class APIResponseExecutor : ObjectResultExecutor
     {
-
-        private readonly ICleanArchitectureBoilerplateStatusService _statusService;
-        public APIResponseExecutor(
-            ICleanArchitectureBoilerplateStatusService statusService, 
+        public APIResponseExecutor( 
             OutputFormatterSelector formatterSelector, 
             IHttpResponseStreamWriterFactory writerFactory, 
             ILoggerFactory loggerFactory, 
             IOptions<MvcOptions> mvcOptions) : base(formatterSelector, writerFactory, loggerFactory, mvcOptions)
         {
-            _statusService = statusService;
+            // Any stuff we need to instantiate for DI
         }
 
         public override Task ExecuteAsync(ActionContext context, ObjectResult result)

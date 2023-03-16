@@ -1,6 +1,5 @@
 using CleanArchitectureBoilerplate.Application.Accounts;
 using CleanArchitectureBoilerplate.Application.Common.Services;
-using CleanArchitectureBoilerplate.Application.Common.Status;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using CleanArchitectureBoilerplate.Domain.Entities;
 using MapsterMapper;
@@ -12,16 +11,13 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Accounts
     {
         private readonly IAccountRepository _accountRepository;
         private readonly ICleanArchitectureBoilerplateLogger _logger;
-        private readonly ICleanArchitectureBoilerplateStatusService _statusService;
         private readonly IMapper _mapper;
 
         public AccountService(IAccountRepository accountRepository,
-                              ICleanArchitectureBoilerplateStatusService statusService,
                               ICleanArchitectureBoilerplateLogger logger,
                               IMapper mapper)
         {
             _accountRepository = accountRepository;
-            _statusService = statusService;
             _logger = logger;
             _mapper = mapper;
         }
