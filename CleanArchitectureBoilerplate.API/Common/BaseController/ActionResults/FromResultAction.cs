@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitectureBoilerplate.API.Common
+namespace CleanArchitectureBoilerplate.API.Common.BaseController.ActionResults
 {
     // https://stackoverflow.com/questions/49503802/mvc-core-iactionresult-meaning
     public class FromSuccessResultActionResult<T> : IActionResult

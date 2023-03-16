@@ -1,4 +1,4 @@
-using CleanArchitectureBoilerplate.API.Common;
+using CleanArchitectureBoilerplate.API.Common.BaseController;
 using CleanArchitectureBoilerplate.Application.Accounts;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Validation;

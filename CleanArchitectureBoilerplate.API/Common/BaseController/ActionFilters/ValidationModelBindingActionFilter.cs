@@ -1,9 +1,11 @@
+using CleanArchitectureBoilerplate.API.Common.BaseController.ActionResults;
+using CleanArchitectureBoilerplate.API.Common.Validation;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
-namespace CleanArchitectureBoilerplate.API.Common.Validation
+namespace CleanArchitectureBoilerplate.API.Common.BaseController.ActionFilters
 {
     public class ValidationModelBindingActionFilter : ActionFilterAttribute
     {

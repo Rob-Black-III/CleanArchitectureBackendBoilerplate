@@ -1,10 +1,10 @@
+using CleanArchitectureBoilerplate.API.Common.BaseController.ActionFilters;
 using CleanArchitectureBoilerplate.API.Common.ResponseEnvelope;
 using CleanArchitectureBoilerplate.API.Common.Validation;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace CleanArchitectureBoilerplate.API;
 
@@ -21,6 +21,7 @@ public static class RegisterDependenciesDI
         // Action Filters (need to do it this way because of logger DI)
         // Normally don't have to do this and can just use the decorator, but we need the DI framework for logger injection.
         services.AddScoped<ValidationModelBindingActionFilter>();
+        services.AddScoped<LoggingActionFilter>();
 
         // Adds all our validators. All validators must implement 'IAssemblyMarker'
         services.AddValidatorsFromAssemblyContaining<Program>();

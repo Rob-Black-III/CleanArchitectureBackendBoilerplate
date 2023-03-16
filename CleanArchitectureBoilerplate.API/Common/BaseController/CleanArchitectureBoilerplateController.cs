@@ -1,12 +1,14 @@
 using System.Net;
-using CleanArchitectureBoilerplate.API.Common.Validation;
+using CleanArchitectureBoilerplate.API.Common.BaseController.ActionFilters;
+using CleanArchitectureBoilerplate.API.Common.BaseController.ActionResults;
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace CleanArchitectureBoilerplate.API.Common
+namespace CleanArchitectureBoilerplate.API.Common.BaseController
 {
     [ServiceFilter(typeof(ValidationModelBindingActionFilter))]
+    [ServiceFilter(typeof(LoggingActionFilter))]
     [BindingBehavior(BindingBehavior.Optional)]
     public class CleanArchitectureBoilerplateController : ControllerBase
     {

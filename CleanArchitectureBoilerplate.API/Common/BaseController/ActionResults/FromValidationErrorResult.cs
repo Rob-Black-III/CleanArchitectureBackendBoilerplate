@@ -1,7 +1,7 @@
 using CleanArchitectureBoilerplate.Application.Common.Validation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitectureBoilerplate.API.Common.Validation
+namespace CleanArchitectureBoilerplate.API.Common.BaseController.ActionResults
 {
     // Naming convention is unfortunate. These results are ActionResults,
     // not my custom Result<> success/fail results.
