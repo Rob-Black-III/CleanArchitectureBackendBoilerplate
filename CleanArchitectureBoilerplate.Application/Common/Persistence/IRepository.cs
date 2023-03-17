@@ -4,8 +4,7 @@ using CleanArchitectureBoilerplate.Domain.SeedWork;
 
 namespace CleanArchitectureBoilerplate.Application.Common.Persistence
 {
-    // Considering getting rid of the generic repository. Considered an anti-pattern.
-    // Not all models need all the CRUD operations. Bad design?
+    // Common functions we want for everything.
 
     /* 
     Conventions:
@@ -16,10 +15,9 @@ namespace CleanArchitectureBoilerplate.Application.Common.Persistence
     */
     public interface IRepository<T> where T : IAggregateRoot
     {
+        //Result<List<T>> GetAll(); // Only when you use when you actually want ALL. Should filter in db otherwise.
         Task<Result<T>> GetByIdAsync(Guid id);
-        Task<Result<bool>> ExistsAsync(Expression<Func<T, bool>> predicate);
-        //Task<Result<IQueryable<T?>>> Where(Expression<Func<T, bool>> predicate);
-        //Task<Result<IReadOnlyList<T>>> ListAllAsync();
+        Task<Result<bool>> ExistsAsync(Expression<Func<T, bool>> predicate);    
         Task<Result<T>> AddAsync(T entity);
         Task<Result<T>> UpdateAsync(T entity);
         Task<Result<T>> DeleteAsync(T entity);

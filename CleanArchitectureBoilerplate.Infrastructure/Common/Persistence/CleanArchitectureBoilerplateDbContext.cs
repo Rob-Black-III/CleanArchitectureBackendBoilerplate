@@ -17,7 +17,8 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Persistence
         // does not reference the domain layer.
         // 
 
-        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Account> Accounts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

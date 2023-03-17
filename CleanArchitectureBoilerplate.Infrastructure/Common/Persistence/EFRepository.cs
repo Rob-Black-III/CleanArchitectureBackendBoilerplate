@@ -154,5 +154,20 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Persistence
             }
             
         }
+
+        // Decided against this. Wanted all to be a case-by-case basis, based on the potential for misuse.
+        // Cannot be async (only used for further chained queries)
+        // public async Task<Result<List<T>>> GetAll()
+        // {
+        //     try
+        //     {
+        //         return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
+        //     }
+        //     catch
+        //     {
+        //         return Error.UnknownError($"An unknown error occured while getting all {typeof(T)}'s from the database.");
+        //     }
+
+        // }
     }
 }

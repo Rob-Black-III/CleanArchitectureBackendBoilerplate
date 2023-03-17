@@ -9,7 +9,6 @@ using static CleanArchitectureBoilerplate.Application.Accounts.AccountDTO;
 
 namespace CleanArchitectureBoilerplate.API.Accounts
 {
-    [ApiController]
     [Route("[controller]")]
     // Controller base gives us "OK() and BadRequest, 
     // wrappers around OkObjectResult and BadRequestResult, etc

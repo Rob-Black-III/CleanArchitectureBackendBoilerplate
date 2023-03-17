@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CleanArchitectureBoilerplate.Domain.Entities;
 using Mapster;
 using static CleanArchitectureBoilerplate.Application.Accounts.AccountDTO;

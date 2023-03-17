@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CleanArchitectureBoilerplate.API.Common.BaseController
 {
-    [ServiceFilter(typeof(ValidationModelBindingActionFilter))]
     [ServiceFilter(typeof(LoggingActionFilter))]
+    [ServiceFilter(typeof(ValidationModelBindingActionFilter))]
     [BindingBehavior(BindingBehavior.Optional)]
+    [ApiController]
     public class CleanArchitectureBoilerplateController : ControllerBase
     {
 
