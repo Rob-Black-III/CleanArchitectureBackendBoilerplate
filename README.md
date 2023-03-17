@@ -19,3 +19,5 @@ TODO use discriminated-union as opposed to exception throwing (ErrorOR<>, Result
 // if(id == default){
 //     return FromError(Error.ValidationError("'Id' must not be null."));
 // }
+
+TODO add IConfiguration for ErrorHandling for differnet environments (same way I did ValidationActionFilter)
