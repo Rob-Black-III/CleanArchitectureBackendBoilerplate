@@ -7,10 +7,12 @@ namespace CleanArchitectureBoilerplate.API.Common.BaseController.ActionFilters
     public class LoggingActionFilter : IAsyncActionFilter
     {
         private readonly ICleanArchitectureBoilerplateLogger _logger;
+        private readonly IConfiguration _configuration;
 
-        public LoggingActionFilter(ICleanArchitectureBoilerplateLogger logger)
+        public LoggingActionFilter(ICleanArchitectureBoilerplateLogger logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)

@@ -30,6 +30,7 @@ namespace CleanArchitectureBoilerplate.API.Accounts
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([BindRequired] Guid id)
         {
+            throw new Exception("test.exe");
             Result<AccountResponse> productResult = await _accountService.GetAccountById(id);
             return FromResult(productResult, HttpStatusCode.OK);
         }

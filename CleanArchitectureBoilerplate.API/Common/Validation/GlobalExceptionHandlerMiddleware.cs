@@ -16,10 +16,13 @@ namespace CleanArchitectureBoilerplate.API.Middleware
         private readonly RequestDelegate _next;
         private readonly ICleanArchitectureBoilerplateLogger _logger;
 
-        public ErrorHandlerMiddleware(RequestDelegate next, [FromServices] ICleanArchitectureBoilerplateLogger logger)
+        private readonly IConfiguration _configuration;
+
+        public ErrorHandlerMiddleware(RequestDelegate next, [FromServices] ICleanArchitectureBoilerplateLogger logger, IConfiguration configuration)
         {
             _next = next;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -30,7 +33,14 @@ namespace CleanArchitectureBoilerplate.API.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogUnknownError(GENERIC_UNKNOWN_ERROR_MESSAGE + " - " + ex.Message);
+                if(_configuration.GetValue<bool>("ErrorHandlingSettings:LogUnsanitizedErrorMessages") == true)
+                {
+                    _logger.LogUnknownError(GENERIC_UNKNOWN_ERROR_MESSAGE + " - " + ex.Message);
+                }
+                else
+                {
+                    _logger.LogUnknownError(GENERIC_UNKNOWN_ERROR_MESSAGE + " Ommited from logging due to the appsettings configuration.");
+                }
 
                 var exceptionHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
 
@@ -43,12 +53,25 @@ namespace CleanArchitectureBoilerplate.API.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                 // Only creating an error here (and not just using a message) because the APIResponseExecutor maps Error Object Results to the appropriate fields.
-                var result = new ObjectResult(Error.UnknownError())
-                {
-                    StatusCode = (int)HttpStatusCode.InternalServerError
-                };
 
-                await result.ExecuteResultAsync(new ActionContext
+                ObjectResult errorToClient = null;
+
+                if(_configuration.GetValue<bool>("ErrorHandlingSettings:ShowUnsanitizedErrorMessages") == true)
+                {
+                    errorToClient = new ObjectResult(GENERIC_UNKNOWN_ERROR_MESSAGE + " - " + ex.Message)
+                        {
+                            StatusCode = (int)HttpStatusCode.InternalServerError
+                        };
+                }
+                else
+                {
+                    errorToClient = new ObjectResult(Error.UnknownError())
+                        {
+                            StatusCode = (int)HttpStatusCode.InternalServerError
+                        };
+                }
+
+                await errorToClient.ExecuteResultAsync(new ActionContext
                 {
                     HttpContext = context
                 });

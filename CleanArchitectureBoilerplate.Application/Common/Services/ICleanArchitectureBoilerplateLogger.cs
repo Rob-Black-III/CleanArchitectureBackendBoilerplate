@@ -1,5 +1,13 @@
 namespace CleanArchitectureBoilerplate.Application.Common.Services
 {
+        public enum LogLevel
+    {
+        Debug,
+        Information,
+        Warning,
+        Error,
+        UnexpectedError
+    }
 
     public interface ICleanArchitectureBoilerplateLogger
     {

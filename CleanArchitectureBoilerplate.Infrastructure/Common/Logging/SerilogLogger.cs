@@ -1,4 +1,3 @@
-using CleanArchitectureBoilerplate.Application.Common;
 using CleanArchitectureBoilerplate.Application.Common.Services;
 using Serilog;
 using Serilog.Exceptions;
@@ -30,7 +29,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
             // Performance wrapper. Saves unneccesary call and heap allocation.
             if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Debug))
             {
-                Log(message, StatusSeverity.DEBUG);
+                Log(message, LogLevel.Information);
             }
         }
 
@@ -39,7 +38,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
             // Performance wrapper. Saves unneccesary call and heap allocation.
             if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Information))
             {
-                Log(message, StatusSeverity.INFO);
+                Log(message, LogLevel.Information);
             }
         }
 
@@ -48,7 +47,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
             // Performance wrapper. Saves unneccesary call and heap allocation.
             if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Error))
             {
-                Log(message, StatusSeverity.ERROR);
+                Log(message, LogLevel.Error);
             }
         }
 
@@ -56,7 +55,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
         {
             // Performance wrapper. Saves unneccesary call and heap allocation.
            if(Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Error)){
-            Log(message, StatusSeverity.UNEXPECTED_ERROR);
+            Log(message, LogLevel.UnexpectedError);
            }
         }
 
@@ -65,7 +64,7 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
             // Performance wrapper. Saves unneccesary call and heap allocation.
             if (Serilog.Log.Logger.IsEnabled(Serilog.Events.LogEventLevel.Warning))
             {
-                Log(message, StatusSeverity.WARN);
+                Log(message, LogLevel.Warning);
             }
         }
 
@@ -74,20 +73,20 @@ namespace CleanArchitectureBoilerplate.Infrastructure.Common.Logging
         Logs the request, and optionally adds a public-facing status message to the API Response.
         Abstraction layer from our logging status to Serilog's status.
         */
-        private void Log(string message, StatusSeverity severity)
+        private void Log(string message, LogLevel severity)
         {
             switch(severity){
-                case StatusSeverity.DEBUG:
+                case LogLevel.Debug:
                     // TODO Check if debug is set in configuration.
                     Serilog.Log.Debug(traceID + ": " + message);
                     break;
-                case StatusSeverity.INFO:
+                case LogLevel.Information:
                     Serilog.Log.Information(traceID + ": " + message);
                     break;
-                case StatusSeverity.ERROR or StatusSeverity.UNEXPECTED_ERROR:
+                case LogLevel.Error or LogLevel.UnexpectedError:
                     Serilog.Log.Error(traceID + ": " + message);
                     break;
-                case StatusSeverity.WARN:
+                case LogLevel.Warning:
                     Serilog.Log.Warning(traceID + ": " + message);
                     break;
                 default:
